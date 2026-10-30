@@ -1,0 +1,18 @@
+# enforce consistent line endings on checkout
+* text=auto
+
+# images / fonts / pdfs are binary — never re-line-ended
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.pdf  binary
+*.ttf  binary
+*.woff binary
+*.woff2 binary
+*.html text
+*.css  text
+*.ts   text
+*.tsx  text
+*.js   text
+*.json text
+*.bat  text
