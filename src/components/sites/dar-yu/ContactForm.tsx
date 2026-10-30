@@ -4,6 +4,9 @@ import { useState } from "react";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
+// Formspree endpoint (cloud-collected, works on static hosting too).
+const FORM_ENDPOINT = "https://formspree.io/f/xeaazynb";
+
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [err, setErr] = useState("");
@@ -14,24 +17,41 @@ export function ContactForm() {
     const data = Object.fromEntries(new FormData(form).entries());
     setStatus("sending");
     setErr("");
+    let ok = false;
+    // 1) primary: Formspree (data lands in their cloud inbox)
     try {
-      const resp = await fetch("/api/contact", {
+      const resp = await fetch(FORM_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ ...data, _subject: "New Fixlinx website inquiry" }),
       });
-      const json = await resp.json();
-      if (!resp.ok || !json.ok) {
-        setStatus("error");
-        setErr(json.error || "Something went wrong");
-        return;
-      }
-      setStatus("sent");
-      form.reset();
+      ok = resp.ok;
     } catch {
-      setStatus("error");
-      setErr("Network error — please try again");
+      ok = false;
     }
+    // 2) fallback: local /api/contact when served by our own node server
+    if (!ok) {
+      try {
+        const resp = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        ok = resp.ok;
+      } catch {
+        ok = false;
+      }
+    }
+    if (!ok) {
+      setStatus("error");
+      setErr("Could not send your message — please email us directly or try again later");
+      return;
+    }
+    setStatus("sent");
+    form.reset();
   }
 
   return (
