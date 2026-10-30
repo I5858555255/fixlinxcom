@@ -4,8 +4,10 @@ import { useState } from "react";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-// Formspree endpoint (cloud-collected, works on static hosting too).
-const FORM_ENDPOINT = "https://formspree.io/f/xeaazynb";
+// Formspree endpoint — submissions are stored in the Formspree cloud inbox.
+// Works even on static hosting (GitHub Pages) because the browser posts
+// directly to formspree.io (their server accepts cross-origin POSTs).
+const FORMSPEER_ENDPOINT = "https://formspree.io/f/xeaazynb";
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
@@ -18,21 +20,30 @@ export function ContactForm() {
     setStatus("sending");
     setErr("");
     let ok = false;
-    // 1) primary: Formspree (data lands in their cloud inbox)
+
+    // 1) primary: Formspree (data lands in their cloud inbox + email)
     try {
-      const resp = await fetch(FORM_ENDPOINT, {
+      const resp = await fetch(FORMSPEER_ENDPOINT, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ ...data, _subject: "New Fixlinx website inquiry" }),
+        body: JSON.stringify({
+          ...data,
+          _subject: "New Fixlinx website inquiry",
+          _template: "table",
+          _replyto: String(data.email ?? ""),
+        }),
       });
       ok = resp.ok;
     } catch {
       ok = false;
     }
-    // 2) fallback: local /api/contact when served by our own node server
+
+    // 2) fallback: local /api/contact (only works when hosted by our own
+    //    node server — silent no-op on static hosting, which is fine because
+    //    step 1 already succeeded or will be reported as error below).
     if (!ok) {
       try {
         const resp = await fetch("/api/contact", {
@@ -45,9 +56,10 @@ export function ContactForm() {
         ok = false;
       }
     }
+
     if (!ok) {
       setStatus("error");
-      setErr("Could not send your message — please email us directly or try again later");
+      setErr("Could not send your message — please email us at info@fixlinx.example or try again later");
       return;
     }
     setStatus("sent");

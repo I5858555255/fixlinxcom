@@ -44,14 +44,17 @@ git push -u origin main
 - `/05-1-blow-case-en` 等 47 个 DIY 子页 → 正常（Node 读 `data/diy/*.json`）
 - `/news-en`、`/news-en/<slug>` → 正常
 - `/manage` 三个 tab（News / DIY Pack / Media Registry）的增删改 → 正常
-- 联系表单（`/contact-en`）→ 提交写 `data/contact/*.json`，正常
+- 联系表单（`/contact-en`）→ 直接提交到 Formspree 云端（form ID `xeaazynb`），
+  后台 formspree.io 可查/导出；若 Formspree 失败会自动回退写本地
+  `data/contact/*.json`（仅 node 托管时有效）
 
 ## 三、如果你坚持只用 GitHub（纯静态）
 
 可以用 `next export` 出静态站放 GitHub Pages，但会**失去**：
-`/api/contact`、`/api/manage/*`、`/api/replace-asset`，以及所有 `force-dynamic`
+`/api/manage/*`（管理增删改）、所有 `force-dynamic`
 页面（55 个 DIY 子页、新闻列表/详情、`/manage`）会 404 或数据缺失。
-**不推荐**——会和你"所有功能可用"的目标冲突。
+**但联系表单仍然可用**——它已改为由浏览器直接 POST 到 Formspree 云端
+（`https://formspree.io/f/xeaazynb`），不依赖自家服务器。
 
 ## 四、可选加固
 
