@@ -5,10 +5,16 @@ import { Header } from "@/components/sites/dar-yu/Header";
 import { Footer } from "@/components/sites/dar-yu/Footer";
 import { PageCard } from "@/components/sites/dar-yu/HomeCards";
 import { HeroStrip } from "@/components/sites/dar-yu/PageHero";
-import { getArticle } from "../lib";
+import { getArticle, getNewsArticles } from "../lib";
 import "../news.css";
 
 export const dynamic = "force-dynamic";
+
+/** Required for GitHub Pages static export: pre-render one page per article
+ *  (slug list comes from the build-time inlined data / live fs read). */
+export function generateStaticParams() {
+  return getNewsArticles().map((a) => ({ slug: a.slug }));
+}
 
 export async function generateMetadata({
   params,

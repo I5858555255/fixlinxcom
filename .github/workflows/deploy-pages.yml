@@ -1,0 +1,66 @@
+# GitHub Pages deployment for the Fixlinx site (static Next.js export).
+#
+# Every push to main:
+#   1. embeds data/diy + data/news into the bundle (static-data.ts)
+#   2. builds a plain static `out/` directory (no node server needed)
+#   3. publishes it to GitHub Pages
+#
+# Local node-server mode is untouched: run `npm start` without
+# NEXT_OUTPUT=static and /api routes + /manage still work live.
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Pages deployment + id token for the action
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Embed static data
+        run: |
+          # inlines data/diy/*.json + data/news/*.json into src/generated/static-data.ts
+          python scripts/embed-static-data.py
+
+      - name: Build static export
+        run: NEXT_OUTPUT=static npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

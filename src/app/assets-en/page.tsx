@@ -1,5 +1,8 @@
-import { redirect } from "next/navigation";
-// /assets-en is no longer publicly shown; it forwards to the hidden /manage entry.
 export default function AssetsRedirect() {
-  redirect("/manage");
+  return (
+    <div suppressHydrationWarning>
+      <meta httpEquiv="refresh" content="0; url=/manage/" />
+      <p>Redirecting to <a href="/manage/">/manage/</a>...</p>
+    </div>
+  );
 }

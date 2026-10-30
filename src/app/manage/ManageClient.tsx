@@ -11,6 +11,30 @@ type NewsMeta = {
   file: string;
 };
 
+/**
+ * On GitHub Pages (static export) there is no node server, so the
+ * /api/manage/* endpoints are unavailable. This flag is detected at
+ * runtime so the admin UI degrades gracefully: data comes from the
+ * build-time inlined snapshot, and mutations are disabled with a
+ * clear notice.
+ */
+const IS_STATIC =
+  typeof window !== "undefined" &&
+  /github\.io|\.pages\./i.test(window.location.hostname);
+
+/** Safe JSON fetcher: returns null when the response is not JSON
+ *  (e.g. GitHub Pages serves 404 HTML instead of an API error). */
+async function safeJson(url: string, init?: RequestInit): Promise<Record<string, unknown> | null> {
+  try {
+    const r = await fetch(url, init);
+    const ct = r.headers.get("content-type") ?? "";
+    if (!ct.includes("application/json")) return null;
+    return (await r.json()) as Record<string, unknown>;
+  } catch {
+    return null;
+  }
+}
+
 type Asset = {
   path: string;
   kind: string;
@@ -85,22 +109,32 @@ export function ManageClient() {
 
   const loadNews = useCallback(async () => {
     setNote("");
-    const r = await fetch("/api/manage/news");
-    const j = await r.json();
-    setArticles(j.articles ?? []);
+    if (IS_STATIC) {
+      setArticles([]);
+      return;
+    }
+    const j = await safeJson("/api/manage/news");
+    setArticles((j?.articles as NewsMeta[]) ?? []);
   }, []);
 
   const loadAssets = useCallback(async () => {
-    const r = await fetch("/api/manage/assets");
-    const j = await r.json();
-    setAssets(j.entries ?? []);
-    setScannedAt(j.scannedAt ?? "");
+    if (IS_STATIC) {
+      setAssets([]);
+      setScannedAt("(static build — live registry unavailable)");
+      return;
+    }
+    const j = await safeJson("/api/manage/assets");
+    setAssets((j?.entries as Asset[]) ?? []);
+    setScannedAt((j?.scannedAt as string) ?? "");
   }, []);
 
   const loadDiy = useCallback(async () => {
-    const r = await fetch("/api/manage/diy");
-    const j = await r.json();
-    setDiyPages(j.pages ?? []);
+    if (IS_STATIC) {
+      setDiyPages([]);
+      return;
+    }
+    const j = await safeJson("/api/manage/diy");
+    setDiyPages((j?.pages as DiyPageMeta[]) ?? []);
   }, []);
 
   useEffect(() => {
@@ -111,6 +145,10 @@ export function ManageClient() {
 
   async function submitArticle(e: React.FormEvent) {
     e.preventDefault();
+    if (IS_STATIC) {
+      setNote("Static hosting (GitHub Pages) has no server — news edits are disabled here.");
+      return;
+    }
     if (!draft.slug.trim() || !draft.title.trim()) {
       setNote("slug and title are required");
       return;
@@ -126,30 +164,32 @@ export function ManageClient() {
         .map((p) => p.trim())
         .filter(Boolean),
     };
-    const r = await fetch("/api/manage/news", {
+    const j = await safeJson("/api/manage/news", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    const j = await r.json();
-    if (j.ok) {
+    if (j?.ok) {
       setNote(`Saved data/news/${payload.slug}.json`);
       setDraft(EMPTY_NEWS);
       loadNews();
     } else {
-      setNote(j.error || "save failed");
+      setNote((j?.error as string) || "save failed");
     }
   }
 
   async function removeArticle(slug: string) {
+    if (IS_STATIC) {
+      setNote("Static hosting (GitHub Pages) has no server — news deletion is disabled here.");
+      return;
+    }
     if (!confirm(`Delete ${slug}?`)) return;
-    const r = await fetch("/api/manage/news", {
+    const j = await safeJson("/api/manage/news", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ slug }),
     });
-    const j = await r.json();
-    setNote(j.ok ? `Deleted ${slug}` : j.error || "delete failed");
+    setNote((j?.ok ? `Deleted ${slug}` : (j?.error as string) || "delete failed") ?? "");
     loadNews();
   }
 
@@ -157,15 +197,24 @@ export function ManageClient() {
   async function openDiy(slug: string) {
     setDiySel(slug);
     setDiyNote("");
-    const r = await fetch(`/api/manage/diy?full=1&slug=${encodeURIComponent(slug)}`);
-    const j = await r.json();
-    if (j.cards) {
-      setDiyFull(j);
+    if (IS_STATIC) {
+      // static build: load from inlined snapshot via the same API shape is
+      // unavailable; fall back to empty draft so the form is visible but
+      // clearly read-only.
+      setDiyFull(null);
+      setDiyDraft({ slug, title: "", cover: "", cards: "" });
+      return;
+    }
+    const j = await safeJson(
+      `/api/manage/diy?full=1&slug=${encodeURIComponent(slug)}`,
+    );
+    if (j?.cards) {
+      setDiyFull(j as unknown as DiyFull);
       setDiyDraft({
-        slug: j.slug,
-        title: j.title,
-        cover: j.cover,
-        cards: j.cards
+        slug: (j.slug as string) ?? slug,
+        title: (j.title as string) ?? "",
+        cover: (j.cover as string) ?? "",
+        cards: (j.cards as DiyCard[])
           .map((c: DiyCard) => JSON.stringify({ img: c.img, name: c.name }))
           .join("\n"),
       });
@@ -177,6 +226,10 @@ export function ManageClient() {
 
   async function submitDiy(e: React.FormEvent) {
     e.preventDefault();
+    if (IS_STATIC) {
+      setDiyNote("Static hosting (GitHub Pages) has no server — DIY page edits are disabled here.");
+      return;
+    }
     if (!diyDraft.slug.trim() || !diyDraft.title.trim()) {
       setDiyNote("slug and title are required");
       return;
@@ -194,7 +247,7 @@ export function ManageClient() {
         }
       })
       .filter((c): c is DiyCard => c !== null);
-    const r = await fetch("/api/manage/diy", {
+    const j = await safeJson("/api/manage/diy", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -204,26 +257,28 @@ export function ManageClient() {
         cards,
       }),
     });
-    const j = await r.json();
-    if (j.ok) {
+    if (j?.ok) {
       setDiyNote(`Saved data/diy/${diyDraft.slug}.json — page now shows only these cards.`);
       setDiyDraft({ slug: "", title: "", cover: "", cards: "" });
       setDiyFull(null);
       loadDiy();
     } else {
-      setDiyNote(j.error || "save failed");
+      setDiyNote((j?.error as string) || "save failed");
     }
   }
 
   async function removeDiyPage(slug: string) {
+    if (IS_STATIC) {
+      setDiyNote("Static hosting (GitHub Pages) has no server — DIY page deletion is disabled here.");
+      return;
+    }
     if (!confirm(`Delete data/diy/${slug}.json?`)) return;
-    const r = await fetch("/api/manage/diy", {
+    const j = await safeJson("/api/manage/diy", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ slug }),
     });
-    const j = await r.json();
-    setDiyNote(j.ok ? `Deleted ${slug}` : j.error || "delete failed");
+    setDiyNote((j?.ok ? `Deleted ${slug}` : (j?.error as string) || "delete failed") ?? "");
     loadDiy();
   }
 
