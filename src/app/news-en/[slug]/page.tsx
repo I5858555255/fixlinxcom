@@ -8,8 +8,6 @@ import { HeroStrip } from "@/components/sites/dar-yu/PageHero";
 import { getArticle, getNewsArticles } from "../lib";
 import "../news.css";
 
-export const dynamic = "force-dynamic";
-
 /** Required for GitHub Pages static export: pre-render one page per article
  *  (slug list comes from the build-time inlined data / live fs read). */
 export function generateStaticParams() {
