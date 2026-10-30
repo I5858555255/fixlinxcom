@@ -1,0 +1,18 @@
+# Next.js build output
+.next
+out
+next-env.d.ts.map
+
+# dependencies
+node_modules
+
+# data — DO NOT ignore: diy/news/contact JSON live here and are required at runtime
+
+# local dev helper (regenerates the media catalog used by /manage)
+# keep it tracked so Windows devs have it; harmless on other platforms
+# build-asset-catalog.py
+
+# editor / os
+.DS_Store
+Thumbs.db
+*.log

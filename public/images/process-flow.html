@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FIXLINX Operation Flow</title>
+<style>
+  html, body { margin:0; padding:0; background:#FFFFFF; }
+  .wrap { width:100%; max-width:2920px; margin:0 auto; }
+  svg { display:block; width:100%; height:auto; }
+  text { font-family: Arial, Helvetica, sans-serif; font-weight:700; fill:#000000; }
+
+  /* 节点依次浮现 */
+  .node {
+    opacity:0;
+    animation: nodeIn .55s cubic-bezier(.2,.7,.3,1) forwards;
+    animation-delay: var(--d, 0s);
+  }
+  @keyframes nodeIn {
+    from { opacity:0; transform: translateY(10px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* 线缆流动光带 */
+  .flow {
+    fill:none;
+    stroke:#FFFFFF;
+    stroke-width:1.6;
+    stroke-opacity:.78;
+    stroke-dasharray:6 18;
+    stroke-linecap:butt;
+    animation: flowMove 1.1s linear infinite;
+    pointer-events:none;
+  }
+  .flow.gray { stroke-opacity:.45; animation-duration:1.8s; }
+  @keyframes flowMove { to { stroke-dashoffset:-24; } }
+
+  /* 底部装饰呼吸 */
+  .deco { animation: breathe 2.6s ease-in-out infinite; }
+  @keyframes breathe { 0%,100%{opacity:.45} 50%{opacity:1} }
+
+  @media (prefers-reduced-motion: reduce) {
+    .node { animation:none; opacity:1; }
+    .flow { animation:none; }
+    .deco { animation:none; opacity:1; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<svg viewBox="0 0 2920 950" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FIXLINX Production Operation Flow">
+  <defs>
+    <marker id="arrowOrange" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" viewBox="0 0 10 10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#F58220"/>
+    </marker>
+    <marker id="arrowGray" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" viewBox="0 0 10 10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#C9C9C9"/>
+    </marker>
+  </defs>
+
+  <!-- 背景 -->
+  <rect x="0" y="0" width="2920" height="950" fill="#FFFFFF"/>
+
+  <!-- ================= 连线 ================= -->
+  <g fill="none" stroke-linecap="square">
+
+    <!-- 橙色主线 -->
+    <g stroke="#F58220" stroke-width="3">
+      <path d="M240,520 H330" marker-end="url(#arrowOrange)"/>
+      <path d="M520,520 H640" marker-end="url(#arrowOrange)"/>
+      <path d="M425,488 V300 H690" marker-end="url(#arrowOrange)"/>
+      <path d="M780,332 V470" marker-end="url(#arrowOrange)"/>
+      <path d="M920,520 H972" marker-end="url(#arrowOrange)"/>
+      <path d="M1108,520 H1180" marker-end="url(#arrowOrange)"/>
+      <path d="M1350,520 H1450" marker-end="url(#arrowOrange)"/>
+      <path d="M1620,520 H1710" marker-end="url(#arrowOrange)"/>
+      <path d="M2030,520 H2120" marker-end="url(#arrowOrange)"/>
+      <path d="M2220,520 H2300" marker-end="url(#arrowOrange)"/>
+      <path d="M2400,520 H2460" marker-end="url(#arrowOrange)"/>
+      <path d="M2680,520 H2740" marker-end="url(#arrowOrange)"/>
+    </g>
+
+    <!-- 浅灰辅助 / 回流分支 -->
+    <g stroke="#C9C9C9" stroke-width="3">
+      <path d="M1760,460 V320 H1820" marker-end="url(#arrowGray)"/>
+      <path d="M1940,352 V410 H1880 V460" marker-end="url(#arrowGray)"/>
+      <path d="M2170,548 V680" marker-end="url(#arrowGray)"/>
+      <path d="M2170,736 V790 H1265 V552" marker-end="url(#arrowGray)"/>
+    </g>
+
+  </g>
+
+  <!-- ================= 流动光带层 ================= -->
+  <g class="flow-layer">
+    <path class="flow" d="M240,520 H330"/>
+    <path class="flow" d="M520,520 H640"/>
+    <path class="flow" d="M425,488 V300 H690"/>
+    <path class="flow" d="M780,332 V470"/>
+    <path class="flow" d="M920,520 H972"/>
+    <path class="flow" d="M1108,520 H1180"/>
+    <path class="flow" d="M1350,520 H1450"/>
+    <path class="flow" d="M1620,520 H1710"/>
+    <path class="flow" d="M2030,520 H2120"/>
+    <path class="flow" d="M2220,520 H2300"/>
+    <path class="flow" d="M2400,520 H2460"/>
+    <path class="flow" d="M2680,520 H2740"/>
+
+    <path class="flow gray" d="M1760,460 V320 H1820"/>
+    <path class="flow gray" d="M1940,352 V410 H1880 V460"/>
+    <path class="flow gray" d="M2170,548 V680"/>
+    <path class="flow gray" d="M2170,736 V790 H1265 V552"/>
+  </g>
+
+  <!-- ================= 节点 ================= -->
+
+  <!-- 1. PURCHASE ORDER -->
+  <g class="node" style="--d:0.10s">
+    <rect x="60" y="488" width="180" height="64" rx="14" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="150" y="526" text-anchor="middle" font-size="17">PURCHASE ORDER</text>
+  </g>
+
+  <!-- 2. EXAM & APPROVAL -->
+  <g class="node" style="--d:0.50s">
+    <rect x="330" y="488" width="190" height="64" rx="14" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="425" y="526" text-anchor="middle" font-size="17">EXAM &amp; APPROVAL</text>
+  </g>
+
+  <!-- 3. WORK ORDER -->
+  <g class="node" style="--d:0.90s">
+    <rect x="690" y="268" width="180" height="64" rx="14" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="780" y="306" text-anchor="middle" font-size="17">WORK ORDER</text>
+  </g>
+
+  <!-- 4. WAREHOUSE ADMINISTRATION -->
+  <g class="node" style="--d:1.30s">
+    <rect x="640" y="470" width="280" height="100" rx="14" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="780" y="510" text-anchor="middle" font-size="16">WAREHOUSE ADMINISTRATION</text>
+    <text x="780" y="540" text-anchor="middle" font-size="12">MATERIAL PREPARATION</text>
+  </g>
+
+  <!-- 5. ISSUANCE OF MATERIAL（正圆形动作节点） -->
+  <g class="node" style="--d:1.70s">
+    <circle cx="1040" cy="520" r="68" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="1040" y="514" text-anchor="middle" font-size="13">ISSUANCE OF</text>
+    <text x="1040" y="536" text-anchor="middle" font-size="13">MATERIAL</text>
+  </g>
+
+  <!-- 6. MFG. DEPT. -->
+  <g class="node" style="--d:2.10s">
+    <rect x="1180" y="488" width="170" height="64" rx="14" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="1265" y="526" text-anchor="middle" font-size="17">MFG. DEPT.</text>
+  </g>
+
+  <!-- 6b. TOTAL INSPECTION（独立圆形标注，不串入流程） -->
+  <g class="node" style="--d:2.30s">
+    <circle cx="1265" cy="390" r="58" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="1265" y="384" text-anchor="middle" font-size="12">TOTAL</text>
+    <text x="1265" y="404" text-anchor="middle" font-size="12">INSPECTION</text>
+  </g>
+
+  <!-- 7. PRODUCTION -->
+  <g class="node" style="--d:2.50s">
+    <rect x="1450" y="488" width="170" height="64" rx="14" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="1535" y="526" text-anchor="middle" font-size="17">PRODUCTION</text>
+  </g>
+
+  <!-- 8. FINISHED PRODUCT & SEMI-PRODUCT -->
+  <g class="node" style="--d:2.90s">
+    <rect x="1710" y="460" width="320" height="120" rx="14" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="1870" y="506" text-anchor="middle" font-size="16">FINISHED PRODUCT</text>
+    <text x="1870" y="540" text-anchor="middle" font-size="16">&amp; SEMI-PRODUCT</text>
+  </g>
+
+  <!-- 8a. SECONDARY PROCESSING -->
+  <g class="node" style="--d:3.10s">
+    <rect x="1820" y="288" width="240" height="64" rx="14" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="1940" y="326" text-anchor="middle" font-size="16">SECONDARY PROCESSING</text>
+  </g>
+
+  <!-- 9. QC -->
+  <g class="node" style="--d:3.30s">
+    <rect x="2120" y="492" width="100" height="56" rx="14" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="2170" y="528" text-anchor="middle" font-size="19">QC</text>
+  </g>
+
+  <!-- 9a. NG -->
+  <g class="node" style="--d:3.50s">
+    <rect x="2120" y="680" width="100" height="56" rx="14" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="2170" y="716" text-anchor="middle" font-size="19">NG</text>
+  </g>
+
+  <!-- 9b. OK -->
+  <g class="node" style="--d:3.70s">
+    <rect x="2300" y="492" width="100" height="56" rx="14" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="2350" y="528" text-anchor="middle" font-size="19">OK</text>
+  </g>
+
+  <!-- 10. WAREHOUSE ENTRY -->
+  <g class="node" style="--d:3.90s">
+    <rect x="2460" y="484" width="220" height="72" rx="14" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="2570" y="526" text-anchor="middle" font-size="16">WAREHOUSE ENTRY</text>
+  </g>
+
+  <!-- 11. OQC -->
+  <g class="node" style="--d:4.10s">
+    <rect x="2740" y="492" width="110" height="56" rx="14" fill="#FFFFFF" stroke="#F58220" stroke-width="1.8"/>
+    <text x="2795" y="528" text-anchor="middle" font-size="19">OQC</text>
+  </g>
+
+  <!-- ================= 底部装饰 ================= -->
+  <g class="deco" stroke="#F58220" stroke-width="3" stroke-linecap="butt">
+    <line x1="1310" y1="890" x2="1385" y2="890"/>
+    <line x1="1535" y1="890" x2="1610" y2="890"/>
+  </g>
+  <text class="deco" x="1460" y="899" text-anchor="middle" font-size="24" letter-spacing="2">OPERATION</text>
+
+</svg>
+</div>
+</body>
+</html>

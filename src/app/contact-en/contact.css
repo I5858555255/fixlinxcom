@@ -1,0 +1,151 @@
+/* Full-screen contact page with a small facility image */
+.contact-full {
+  position: relative;
+  margin-top: 110px;
+  min-height: calc(100vh - 110px);
+  background: var(--fx-graphite);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 60px 24px;
+}
+
+/* the facility photo — kept to a compact card (≈1/3 of a full-bleed image) */
+.contact-full__img {
+  flex: none;
+  width: 320px;
+  max-width: 38%;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.contact-full__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.contact-full__content {
+  flex: 1;
+  min-width: 0;
+  padding-left: 48px;
+}
+
+.contact-full__title {
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin: 0 0 28px;
+}
+
+.contact-full__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+.contact-full__rows p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.82);
+  margin-bottom: 14px;
+}
+
+.contact-full__rows a {
+  color: #fff;
+}
+
+.contact-full__label {
+  color: var(--fx-amber);
+  font-weight: 500;
+}
+
+.contact-full__intro {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+}
+
+/* form on the graphite surface — themed from the palette */
+.contact-full .dy-form {
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.contact-full .dy-form input,
+.contact-full .dy-form textarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  padding: 11px 13px;
+  font: inherit;
+  font-size: 14px;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.contact-full .dy-form input::placeholder,
+.contact-full .dy-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.contact-full .dy-form input:focus,
+.contact-full .dy-form textarea:focus {
+  outline: none;
+  border-color: var(--fx-amber);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.contact-full .dy-form__submit {
+  justify-self: start;
+  border: none;
+  background: var(--fx-amber);
+  color: #fff;
+  padding: 11px 34px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.contact-full .dy-form__submit:hover {
+  background: var(--fx-amber-dark);
+}
+
+.contact-full .dy-form__submit:disabled {
+  background: rgba(255, 255, 255, 0.25);
+  cursor: default;
+}
+
+.contact-full .dy-form__note {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.contact-full .dy-form__note--ok {
+  color: var(--fx-amber);
+}
+
+.contact-full .dy-form__note--err {
+  color: #fca5a5;
+}
+
+@media (max-width: 760px) {
+  .contact-full {
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+  }
+  .contact-full__img {
+    width: 100%;
+    max-width: 260px;
+    height: 220px;
+  }
+  .contact-full__content {
+    padding-left: 0;
+    width: 100%;
+  }
+}

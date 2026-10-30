@@ -1,0 +1,108 @@
+.dy-contact {
+  background: #fff;
+  padding: 40px 0 0;
+}
+
+.dy-contact__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  max-width: var(--col-wide);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.dy-contact__title {
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--fx-text);
+  margin-bottom: 18px;
+}
+
+.dy-contact__rows p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--fx-text-mid);
+  margin-bottom: 12px;
+}
+
+.dy-contact__label {
+  color: var(--fx-amber);
+}
+
+.dy-contact__intro {
+  font-size: 14px;
+  color: var(--fx-text-mid);
+  margin-bottom: 8px;
+}
+
+.dy-contact__thanks {
+  font-size: 14px;
+  color: var(--fx-text-mid);
+  margin-top: 12px;
+}
+
+.dy-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.dy-form input,
+.dy-form textarea {
+  border: 1px solid #d9d9d9;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #fff;
+  color: var(--fx-text);
+  resize: vertical;
+}
+
+.dy-form input:focus,
+.dy-form textarea:focus {
+  outline: none;
+  border-color: var(--fx-amber);
+}
+
+.dy-form__submit {
+  justify-self: start;
+  background: var(--fx-amber);
+  color: #fff;
+  border: none;
+  padding: 10px 30px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.dy-form__submit:hover {
+  background: var(--fx-graphite);
+}
+
+.dy-form__submit:disabled {
+  background: var(--fx-text-light);
+  cursor: default;
+}
+
+.dy-form__note {
+  font-size: 13px;
+  color: var(--fx-text-mid);
+}
+
+.dy-form__note--ok {
+  color: var(--fx-amber-dark);
+}
+
+.dy-form__note--err {
+  color: #c0392b;
+}
+
+@media (max-width: 760px) {
+  .dy-contact__grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}

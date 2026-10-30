@@ -1,0 +1,211 @@
+.dy-hero {
+  position: relative;
+  margin-top: 110px;
+  background:
+    linear-gradient(rgba(47, 47, 47, 0.55), rgba(47, 47, 47, 0.55)),
+    url("/images/factory/drone-interior-1.jpg")
+      center / cover no-repeat;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dy-hero__inner {
+  text-align: center;
+  color: #fff;
+  padding: 60px 16px;
+  animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dy-hero__inner {
+    animation: none;
+  }
+}
+
+.dy-hero__title {
+  font-size: 44px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+  max-width: 640px;
+  margin: 0 auto 16px;
+}
+
+.dy-hero__company {
+  font-size: 14px;
+  letter-spacing: 0.28em;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- product cards ---------- */
+
+.dy-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 480px;
+  align-items: stretch;
+}
+
+.dy-card__content {
+  padding: 48px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dy-card__name {
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--fx-text);
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+
+.dy-card__list {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--fx-text-mid);
+  margin-bottom: 26px;
+}
+
+.dy-card__more {
+  display: inline-block;
+  border: 1px solid var(--fx-steel);
+  color: var(--fx-text);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  padding: 10px 30px;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.dy-card__more:hover {
+  border-color: var(--fx-amber);
+  color: var(--fx-amber);
+}
+
+.dy-card__media {
+  overflow: hidden;
+  display: flex;
+}
+
+.dy-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dy-card--alt .dy-card__content {
+  background: #fff;
+}
+
+.dy-card--alt .dy-card__media {
+  background: var(--fx-graphite);
+}
+
+/* ---------- page chrome ---------- */
+
+.dy-page {
+  padding: 140px 24px 40px;
+  min-height: calc(100vh - 80px);
+}
+
+.dy-page__head {
+  max-width: var(--col-wide);
+  margin: 0 auto 40px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dy-page__title {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fx-text);
+}
+
+.dy-back {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--fx-text-mid);
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.dy-back:hover {
+  color: var(--fx-amber);
+}
+
+.dy-back + .dy-back {
+  margin-left: 18px;
+}
+
+/* numbered list (products) */
+
+.dy-numlist {
+  max-width: var(--col-wide);
+  margin: 0 auto;
+}
+
+.dy-numlist__row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid #ececec;
+  padding: 13px 0;
+  transition: background 0.2s ease;
+}
+
+.dy-numlist__row:hover {
+  background: var(--fx-bg);
+}
+
+.dy-numlist__num {
+  font-size: 16px;
+  color: var(--fx-text-light);
+  min-width: 34px;
+  font-weight: 600;
+}
+
+.dy-numlist__name {
+  font-size: 16px;
+  color: var(--fx-text);
+}
+
+@media (max-width: 760px) {
+  .dy-hero {
+    min-height: 280px;
+  }
+  .dy-hero__title {
+    font-size: 28px;
+  }
+  .dy-card {
+    grid-template-columns: 1fr;
+  }
+  .dy-card__content {
+    padding: 32px 20px;
+  }
+  .dy-page {
+    padding-top: 100px;
+    min-height: 0;
+  }
+}

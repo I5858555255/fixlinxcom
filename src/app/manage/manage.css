@@ -1,0 +1,395 @@
+/* 管理入口页与 /assets-en 共用样式（从 assets.css 复制精简） */
+.mg-wrap {
+  max-width: var(--col-wide);
+  margin: 0 auto;
+  padding: 150px 24px 80px;
+}
+
+.mg-title {
+  font-size: 42px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--fx-text);
+  margin: 0 0 8px;
+}
+
+.mg-sub {
+  font-size: 14px;
+  color: var(--fx-text-mid);
+  max-width: 560px;
+  line-height: 1.6;
+  margin: 0 0 28px;
+}
+
+/* tabs */
+.mg-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.mg-tab {
+  border: 1px solid #ececec;
+  background: #fff;
+  color: var(--fx-text-mid);
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  padding: 9px 20px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.mg-tab--on {
+  border-color: var(--fx-amber);
+  color: var(--fx-amber-dark);
+  background: var(--fx-bg);
+}
+
+.mg-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.mg-h2 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--fx-text);
+  text-transform: uppercase;
+  margin: 8px 0 4px;
+}
+
+.mg-hint {
+  font-size: 13px;
+  color: var(--fx-text-mid);
+  margin: 0 0 12px;
+}
+
+.mg-hint code {
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  background: var(--fx-bg);
+  padding: 1px 5px;
+}
+
+/* news rows */
+.mg-news-list {
+  display: grid;
+  gap: 10px;
+}
+
+.mg-news-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid #ececec;
+  background: #fff;
+  padding: 10px 14px;
+}
+
+.mg-news-thumb {
+  width: 72px;
+  height: 48px;
+  object-fit: cover;
+  flex: none;
+  background: var(--fx-bg);
+}
+
+.mg-news-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.mg-news-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--fx-text);
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mg-news-date {
+  font-size: 11px;
+  color: var(--fx-text-mid);
+  margin: 0;
+}
+
+.mg-news-date a {
+  color: var(--fx-amber-dark);
+  text-decoration: underline;
+}
+
+.mg-empty {
+  font-size: 13px;
+  color: var(--fx-text-light);
+}
+
+/* form */
+.mg-form {
+  display: grid;
+  gap: 10px;
+  max-width: 720px;
+}
+
+.mg-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mg-form label {
+  display: grid;
+  gap: 4px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--fx-text-mid);
+  text-transform: uppercase;
+}
+
+.mg-form input,
+.mg-form textarea {
+  font: inherit;
+  font-size: 14px;
+  text-transform: none;
+  letter-spacing: 0;
+  border: 1px solid #d9d9d9;
+  padding: 9px 11px;
+  background: #fff;
+  color: var(--fx-text);
+  resize: vertical;
+}
+
+.mg-form input:focus,
+.mg-form textarea:focus {
+  outline: none;
+  border-color: var(--fx-amber);
+}
+
+.mg-form__foot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.mg-btn {
+  border: 1px solid var(--fx-amber);
+  background: var(--fx-amber);
+  color: #fff;
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  padding: 9px 22px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.mg-btn:hover {
+  background: var(--fx-amber-dark);
+}
+
+.mg-btn--ghost {
+  background: #fff;
+  color: var(--fx-amber-dark);
+}
+
+.mg-btn--danger {
+  background: #fff;
+  border-color: #c0392b;
+  color: #c0392b;
+}
+
+.mg-btn--danger:hover {
+  background: #c0392b;
+  color: #fff;
+}
+
+.mg-note {
+  font-size: 12px;
+  color: var(--fx-amber-dark);
+}
+
+/* assets panel */
+.mg-stats {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.mg-stat {
+  font-size: 12px;
+  color: var(--fx-text-mid);
+  border: 1px solid #ececec;
+  padding: 5px 12px;
+  background: #fff;
+}
+
+.mg-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.mg-select,
+.mg-search {
+  font: inherit;
+  font-size: 13px;
+  border: 1px solid #d9d9d9;
+  padding: 7px 10px;
+  background: #fff;
+  color: var(--fx-text);
+}
+
+.mg-search {
+  flex: 1;
+  min-width: 200px;
+}
+
+.mg-asset-table {
+  display: grid;
+  gap: 0;
+  border: 1px solid #ececec;
+  background: #fff;
+}
+
+.mg-asset {
+  display: grid;
+  grid-template-columns: 64px 1fr 90px 70px;
+  gap: 10px;
+  align-items: center;
+  padding: 9px 14px;
+  border-bottom: 1px solid #f4f4f4;
+  font-size: 13px;
+}
+
+.mg-asset:last-child {
+  border-bottom: none;
+}
+
+.mg-asset__kind {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fx-text-light);
+}
+
+.mg-asset__path {
+  color: var(--fx-text);
+  word-break: break-all;
+}
+
+.mg-asset__size {
+  color: var(--fx-text-mid);
+  text-align: right;
+}
+
+.mg-asset__open {
+  color: var(--fx-amber-dark);
+  font-size: 12px;
+  text-align: right;
+  text-decoration: none;
+}
+
+.mg-asset__open:hover {
+  text-decoration: underline;
+}
+
+/* diy panel */
+.mg-diy-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.mg-diy-list {
+  display: grid;
+  gap: 6px;
+  max-height: 480px;
+  overflow-y: auto;
+  border: 1px solid #ececec;
+  padding: 8px;
+  background: #fff;
+}
+
+.mg-diy-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mg-diy-row--on {
+  background: var(--fx-bg);
+}
+
+.mg-diy-pick {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+  border: none;
+  background: none;
+  padding: 6px 8px;
+  cursor: pointer;
+  font: inherit;
+}
+
+.mg-diy-slug {
+  font-size: 12px;
+  color: var(--fx-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mg-diy-count {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--fx-text-light);
+  text-transform: uppercase;
+}
+
+.mg-diy-row--on .mg-diy-slug {
+  color: var(--fx-amber-dark);
+  font-weight: 600;
+}
+
+.mg-diy-view {
+  font-size: 11px;
+  color: var(--fx-amber-dark);
+  text-decoration: underline;
+  flex: none;
+}
+
+.mg-btn--sm {
+  padding: 4px 10px;
+  font-size: 11px;
+  flex: none;
+}
+
+.mg-diy-form {
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  .mg-row {
+    grid-template-columns: 1fr;
+  }
+  .mg-asset {
+    grid-template-columns: 56px 1fr 70px;
+  }
+  .mg-asset__open {
+    display: none;
+  }
+  .mg-diy-layout {
+    grid-template-columns: 1fr;
+  }
+}

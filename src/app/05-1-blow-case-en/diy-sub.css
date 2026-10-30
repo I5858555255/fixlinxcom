@@ -1,0 +1,102 @@
+/* Shared styling for the 42 diy-sub pages */
+.diag-grid {
+  max-width: var(--col-wide);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px 32px;
+}
+.diag-card {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 0;
+  border: 1px solid #f0f0f0;
+  background: #fff;
+  padding: 18px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.diag-card:hover {
+  border-color: var(--fx-amber);
+  box-shadow: 0 4px 18px rgba(47, 47, 47, 0.07);
+}
+.diag-card__img {
+  overflow: hidden;
+  background: #f5f5f5;
+  height: 560px;
+}
+.diag-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.diag-card__info { min-width: 0; }
+.diag-card__count {
+  display: block;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--fx-amber-dark);
+  margin-bottom: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.diag-card__name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fx-text);
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.diag-card__item,
+.diag-card__contents,
+.diag-card__pack {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--fx-text-mid);
+  margin-bottom: 6px;
+}
+.diag-card__item { color: var(--fx-text); }
+.diag-counter {
+  display: flex;
+  gap: 8px;
+  max-width: var(--col-wide);
+  margin: 0 auto 20px;
+}
+.diag-counter__num {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--fx-text-light);
+  border: 1px solid #e0e0e0;
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-variant-numeric: tabular-nums;
+}
+.diag-heading {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--fx-text);
+  text-align: center;
+  margin: 0 auto 28px;
+  padding: 12px 0;
+  border-bottom: 1px solid #ececec;
+  max-width: var(--col-wide);
+}
+.diy-note {
+  max-width: var(--col-wide);
+  margin: 28px auto 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--fx-text-light);
+  text-align: center;
+  text-transform: uppercase;
+}
+@media (max-width: 900px) {
+  .diag-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .diag-card__img { width: 100%; height: 320px; }
+}

@@ -1,0 +1,82 @@
+.fasteners-groups {
+  max-width: var(--col-wide);
+  margin: 0 auto;
+  display: grid;
+  gap: 48px;
+}
+
+.fasteners-group {
+  border-top: 2px solid var(--fx-graphite);
+  padding-top: 24px;
+}
+
+.fasteners-group__head {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.fasteners-group__num {
+  font-size: 28px;
+  font-weight: 200;
+  color: var(--fx-amber-dark);
+  line-height: 1;
+  min-width: 40px;
+  font-variant-numeric: tabular-nums;
+}
+
+.fasteners-group__name {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--fx-text);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.fasteners-group__desc {
+  font-size: 14px;
+  color: var(--fx-text-mid);
+  line-height: 1.6;
+  max-width: 520px;
+}
+
+.fasteners-group__imgs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.fasteners-group__imgs:has(> :nth-child(4)) {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.fasteners-photo {
+  margin: 0;
+  overflow: hidden;
+  background: var(--fx-bg);
+  border: 1px solid #ececec;
+}
+
+.fasteners-photo img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.fasteners-photo:hover img {
+  transform: scale(1.04);
+}
+
+@media (max-width: 760px) {
+  .fasteners-group__imgs,
+  .fasteners-group__imgs:has(> :nth-child(4)) {
+    grid-template-columns: 1fr 1fr;
+  }
+  .fasteners-photo img {
+    height: 150px;
+  }
+}

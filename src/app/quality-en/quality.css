@@ -1,0 +1,75 @@
+.quality-module {
+  max-width: var(--col-wide);
+  margin: 0 auto 48px;
+}
+
+.quality-module__title {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--fx-text);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--fx-amber);
+}
+
+/* full-width operation flow (animated HTML/SVG) */
+.quality-flow {
+  border: 1px solid #ececec;
+  background: #fff;
+}
+
+/* iframe scales the SVG edge-to-edge; height tracks the SVG's own ratio
+   so the entire flow is always visible, never clipped. */
+.quality-flow iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 320px;
+  aspect-ratio: 2920 / 950;
+  border: 0;
+}
+
+.quality-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.quality-grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.quality-photo {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #ececec;
+  background: #fff;
+}
+
+.quality-photo img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.quality-photo img:hover {
+  transform: scale(1.05);
+}
+
+.quality-photo__cap {
+  font-size: 12px;
+  color: var(--fx-text-mid);
+  padding: 10px 12px;
+  line-height: 1.4;
+}
+
+@media (max-width: 760px) {
+  .quality-grid,
+  .quality-grid--3 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
