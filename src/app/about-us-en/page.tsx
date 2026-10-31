@@ -3,6 +3,7 @@ import { Header } from "@/components/sites/dar-yu/Header";
 import { Footer } from "@/components/sites/dar-yu/Footer";
 import { PageCard } from "@/components/sites/dar-yu/HomeCards";
 import { HeroStrip } from "@/components/sites/dar-yu/PageHero";
+import { assetPath } from "@/lib/assetPath";
 import "./about.css";
 
 export const metadata: Metadata = {
@@ -54,7 +55,7 @@ export default function AboutPage() {
         <PageCard title="About Us">
           {/* Signboard / hero strip */}
           <div className="about-signboard">
-            <img src="/images/fixlinx-logo-full.png" alt="Fixlinx Industrial" />
+            <img src={assetPath("/images/fixlinx-logo-full.png")} alt="Fixlinx Industrial" />
           </div>
 
           <div className="about-strip">
@@ -112,7 +113,7 @@ export default function AboutPage() {
           <div className="about-modules">
             <div className="about-module">
               <figure className="about-module__img">
-                <img src="/images/factory/drone-interior-2.jpg" alt="Production floor" loading="lazy" />
+                <img src={assetPath("/images/factory/drone-interior-2.jpg")} alt="Production floor" loading="lazy" />
               </figure>
               <div className="about-module__text">
                 <p className="about-heading">MANUFACTURING</p>
@@ -125,7 +126,7 @@ export default function AboutPage() {
             </div>
             <div className="about-module about-module--rev">
               <figure className="about-module__img">
-                <img src="/images/factory/san_4145.jpg" alt="Machine details" loading="lazy" />
+                <img src={assetPath("/images/factory/san_4145.jpg")} alt="Machine details" loading="lazy" />
               </figure>
               <div className="about-module__text">
                 <p className="about-heading">PRECISION COMPONENTS</p>
@@ -138,7 +139,7 @@ export default function AboutPage() {
             </div>
             <div className="about-module">
               <figure className="about-module__img">
-                <img src="/images/factory/san_4220.jpg" alt="Quality lab" loading="lazy" />
+                <img src={assetPath("/images/factory/san_4220.jpg")} alt="Quality lab" loading="lazy" />
               </figure>
               <div className="about-module__text">
                 <p className="about-heading">QUALITY</p>
@@ -155,7 +156,7 @@ export default function AboutPage() {
           <div className="about-carousel">
             {CAROUSEL.map((c, i) => (
               <figure key={i} className="about-carousel__item">
-                <img src={c.img} alt={c.caption} loading="lazy" />
+                <img src={assetPath(c.img)} alt={c.caption} loading="lazy" />
                 <figcaption className="about-carousel__cap">{c.caption}</figcaption>
               </figure>
             ))}

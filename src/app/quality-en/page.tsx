@@ -3,6 +3,7 @@ import { Header } from "@/components/sites/dar-yu/Header";
 import { Footer } from "@/components/sites/dar-yu/Footer";
 import { PageCard } from "@/components/sites/dar-yu/HomeCards";
 import { HeroStrip } from "@/components/sites/dar-yu/PageHero";
+import { assetPath } from "@/lib/assetPath";
 import "./quality.css";
 
 export const metadata: Metadata = {
@@ -39,7 +40,7 @@ export default function QualityPage() {
             <p className="quality-module__title">OPERATION FLOW</p>
             <div className="quality-flow">
               <iframe
-                src="/images/process-flow.html"
+                src={assetPath("/images/process-flow.html")}
                 title="Fixlinx production operation flow — from purchase order to OQC"
                 loading="lazy"
               />
@@ -51,7 +52,7 @@ export default function QualityPage() {
             <div className="quality-grid">
               {PROCESS.map((p, i) => (
                 <figure key={i} className="quality-photo">
-                  <img src={p.img} alt={p.caption} loading="lazy" />
+                  <img src={assetPath(p.img)} alt={p.caption} loading="lazy" />
                   <figcaption className="quality-photo__cap">{p.caption}</figcaption>
                 </figure>
               ))}
@@ -63,7 +64,7 @@ export default function QualityPage() {
             <div className="quality-grid quality-grid--3">
               {CERTS.map((c, i) => (
                 <figure key={i} className="quality-photo">
-                  <img src={c.img} alt={c.caption} loading="lazy" />
+                  <img src={assetPath(c.img)} alt={c.caption} loading="lazy" />
                   <figcaption className="quality-photo__cap">{c.caption}</figcaption>
                 </figure>
               ))}

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { assetPath } from "@/lib/assetPath";
 
 type NewsMeta = {
   slug: string;
@@ -336,7 +337,7 @@ export function ManageClient() {
                 {a.img && (
                   <img
                     className="mg-news-thumb"
-                    src={a.img}
+                    src={assetPath(a.img)}
                     alt={a.title}
                   />
                 )}
@@ -575,7 +576,7 @@ export function ManageClient() {
                 <span className="mg-asset__size">{fmtSize(a.size)}</span>
                 <Link
                   className="mg-asset__open"
-                  href={a.path}
+                  href={assetPath(a.path)}
                   target="_blank"
                   rel="noreferrer"
                 >

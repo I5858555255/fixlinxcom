@@ -1,5 +1,6 @@
 import Link from "next/link";
 import "./home.css";
+import { assetPath } from "@/lib/assetPath";
 
 const FASTENERS_LIST = [
   "Wood Screws",
@@ -53,7 +54,7 @@ export function FastenersCard() {
       </div>
       <Link href="/fasteners-en" className="dy-card__media" aria-label="Fasteners">
         <img
-          src="/images/fasteners/wood-screws-1.jpg"
+          src={assetPath("/images/fasteners/wood-screws-1.jpg")}
           alt="Fixlinx fasteners range"
           loading="lazy"
         />
@@ -68,7 +69,7 @@ export function DiyCard() {
       <div className="dy-card__media">
         <Link href="/diy-pack-en" aria-label="DIY Pack">
           <img
-            src="/images/fasteners-hero.jpg"
+            src={assetPath("/images/fasteners-hero.jpg")}
             alt="DIY pack collection"
             loading="lazy"
           />

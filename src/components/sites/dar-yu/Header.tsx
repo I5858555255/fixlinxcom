@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import "./header.css";
+import { assetPath } from "@/lib/assetPath";
 
 const NAV = [
   { label: "ABOUT", href: "/about-us-en" },
@@ -33,7 +34,7 @@ export function Header() {
       >
         <Link href="/" className="dy-logo" aria-label="Fixlinx Industrial">
           <img
-            src="/images/fixlinx-logo.png"
+            src={assetPath("/images/fixlinx-logo.png")}
             alt="Fixlinx"
             width={345}
             height={120}

@@ -3,6 +3,7 @@ import { Header } from "@/components/sites/dar-yu/Header";
 import { Footer } from "@/components/sites/dar-yu/Footer";
 import { PageCard } from "@/components/sites/dar-yu/HomeCards";
 import { getDiyPage, type DiyPage } from "@/components/sites/dar-yu/DiyLib";
+import { assetPath } from "@/lib/assetPath";
 import "./diy-sub.css";
 
 export const metadata: Metadata = {
@@ -18,7 +19,7 @@ export default function DiySubPage() {
   const cards = page
     ? page.cards.length
       ? page.cards
-      : [{ img: page.cover, name: page.title }]
+      : [{ img: assetPath(page.cover), name: page.title }]
     : [];
   return (
     <>
@@ -36,7 +37,7 @@ export default function DiySubPage() {
             {cards.map((c, i) => (
               <article key={i} className="diag-card diag-card--plain">
                 <div className="diag-card__img">
-                  <img src={c.img} alt={c.name} loading="lazy" />
+                  <img src={assetPath(c.img)} alt={c.name} loading="lazy" />
                 </div>
                 <div className="diag-card__info">
                   <h3 className="diag-card__name">{c.name}</h3>

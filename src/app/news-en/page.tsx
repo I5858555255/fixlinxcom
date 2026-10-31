@@ -5,6 +5,7 @@ import { Footer } from "@/components/sites/dar-yu/Footer";
 import { PageCard } from "@/components/sites/dar-yu/HomeCards";
 import { HeroStrip } from "@/components/sites/dar-yu/PageHero";
 import { getNewsArticles } from "./lib";
+import { assetPath } from "@/lib/assetPath";
 import "./news.css";
 
 export const metadata: Metadata = {
@@ -38,7 +39,7 @@ export default function NewsPage() {
                 >
                   {a.img && (
                     <div className="news-item__img">
-                      <img src={a.img} alt={a.title} loading="lazy" />
+                      <img src={assetPath(a.img)} alt={a.title} loading="lazy" />
                     </div>
                   )}
                   <div className="news-item__body">

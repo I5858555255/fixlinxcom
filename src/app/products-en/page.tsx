@@ -4,6 +4,7 @@ import { Header } from "@/components/sites/dar-yu/Header";
 import { Footer } from "@/components/sites/dar-yu/Footer";
 import { PageCard } from "@/components/sites/dar-yu/HomeCards";
 import { HeroStrip } from "@/components/sites/dar-yu/PageHero";
+import { assetPath } from "@/lib/assetPath";
 import "./products.css";
 
 export const metadata: Metadata = {
@@ -60,7 +61,7 @@ export default function ProductsPage() {
               </div>
               <div className="products-block__media">
                 <img
-                  src="/images/fasteners/wood-screws-1.jpg"
+                  src={assetPath("/images/fasteners/wood-screws-1.jpg")}
                   alt="Fixlinx fasteners range"
                 />
               </div>
@@ -77,7 +78,7 @@ export default function ProductsPage() {
               </div>
               <div className="products-block__media">
                 <img
-                  src="/images/fasteners-hero.jpg"
+                  src={assetPath("/images/fasteners-hero.jpg")}
                   alt="DIY pack collection"
                 />
               </div>

@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FIXLINX Operation Flow</title>
+<script>
+/* GitHub Pages sub-path prefix: this document is served from /fixlinxcom/
+   on the project site; its own asset refs (none here, but included for
+   safety) and any parent-frame navigation must use the sub-path. */
+(function(){
+  var seg = (location.pathname.split("/").filter(Boolean)[0] || "");
+  if (seg === "fixlinxcom") {
+    document.documentElement.setAttribute("data-basepath", "/" + seg);
+  }
+})();
+</script>
 <style>
   html, body { margin:0; padding:0; background:#FFFFFF; }
   .wrap { width:100%; max-width:2920px; margin:0 auto; }

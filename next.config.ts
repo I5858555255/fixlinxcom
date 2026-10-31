@@ -7,14 +7,23 @@ import path from "node:path";
  *
  * The GitHub Actions workflow sets NEXT_OUTPUT=static which:
  *   - enables `output: "export"` so `next build` emits a plain `out/` dir
+ *   - sets `basePath: "/fixlinxcom"` because GitHub Pages project sites
+ *     live under `/<user>/<repo>/` — Next prefixes every framework URL
+ *     (chunk/css references, next/link hrefs, router push paths) with it
  *   - switches `trailingSlash` to true (GitHub Pages URL convention)
+ *
+ * Public assets that bypass the framework are covered by:
+ *   - src/lib/assetPath.ts  — runtime helper for JSX <img>/<a>/<iframe> src
+ *   - postcss-basepath.js   — build-time CSS url() rewrite (see postcss.config.js)
  *
  * API routes can't exist in a static export, so in this mode they are
  * replaced with no-op stubs on disk during the build and restored to the
  * real implementations immediately after. Node-server / Vercel builds
- * (NEXT_OUTPUT unset) skip all of this and keep the real routes.
+ * (NEXT_OUTPUT unset) skip all of this and keep the real routes, with no
+ * basePath — local dev on localhost:3000 keeps working as-is.
  */
 const isPages = process.env.NEXT_OUTPUT === "static";
+const PAGES_BASE = "/fixlinxcom";
 
 const API_STUB = `/* AUTO-STUB: API routes are unavailable in the GitHub Pages static export. */
 import { NextResponse } from "next/server";
@@ -66,7 +75,7 @@ if (isPages) {
           "",
         );
         if (patchedText !== original) {
-          fs.writeFileSync(full, patchedText, "utf-8");
+          fs.writeFileSync(full, patchedText);
           patched.push({ file: full, original });
         }
       }
@@ -80,8 +89,42 @@ if (isPages) {
     `[next.config] Pages static export: disabled force-dynamic in ${patched.length} files`,
   );
 
-  // 3. /assets-en uses next/navigation redirect() — unsupported by static
-  //    export; swap it for a meta-refresh page (restored after build).
+  // 3. Prefix public-asset CSS url() references (/fonts/, /images/, /sites/)
+  //    with /fixlinxcom so @font-face + background images resolve under the
+  //    GitHub Pages sub-path. PostCSS emits absolute paths verbatim; the
+  //    browser resolves them against the origin root, which misses the
+  //    project sub-directory. Source files are patched in place and the
+  //    originals restored on process exit (same pattern as the force-dynamic
+  //    and API-stub steps above), so node-server mode is unaffected.
+  const srcCssWalk = (d: string, out: string[]) => {
+    if (!fs.existsSync(d)) return;
+    for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
+      const full = path.join(d, entry.name);
+      if (entry.isDirectory()) srcCssWalk(full, out);
+      else if (entry.name.endsWith(".css")) out.push(full);
+    }
+  };
+  const cssFiles: string[] = [];
+  srcCssWalk(path.join(process.cwd(), "src"), cssFiles);
+  const cssPatched: Array<{ file: string; original: string }> = [];
+  const cssRe = /url\(\s*(["']?)(\/(?:images|fonts|sites)\/[A-Za-z0-9\-_./]+)(["']?)\s*\)/g;
+  for (const file of cssFiles) {
+    const original = fs.readFileSync(file, "utf-8");
+    const patchedText = original.replace(cssRe, (m, q1: string, p: string, q2: string) =>
+      p.startsWith(PAGES_BASE + "/") ? m : `url(${q1}${PAGES_BASE}${p}${q2})`,
+    );
+    if (patchedText !== original) {
+      fs.writeFileSync(file, patchedText, "utf-8");
+      cssPatched.push({ file, original });
+    }
+  }
+  for (const { file, original } of cssPatched) {
+    restoreFns.push(() => fs.writeFileSync(file, original, "utf-8"));
+  }
+  console.log(`[next.config] Pages static export: prefixed css url() in ${cssPatched.length} files`);
+
+  // 4. /assets-en redirect() is unsupported by static export; swap it for
+  //    a meta-refresh page (restored after build).
   const assetsPage = path.join(appDir, "assets-en", "page.tsx");
   if (fs.existsSync(assetsPage)) {
     const original = fs.readFileSync(assetsPage, "utf-8");
@@ -111,6 +154,10 @@ const nextConfig: NextConfig = {
     ? {
         output: "export" as const,
         trailingSlash: true,
+        // GitHub Pages project site lives at /<user>/<repo>/; every
+        // framework-issued URL gets this prefix. Do NOT add assetPrefix —
+        // it would prefix asset URLs a second time (/fixlinxcom/fixlinxcom/...).
+        basePath: PAGES_BASE,
       }
     : {}),
 };

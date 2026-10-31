@@ -4,6 +4,7 @@ import { Header } from "@/components/sites/dar-yu/Header";
 import { Footer } from "@/components/sites/dar-yu/Footer";
 import { PageCard } from "@/components/sites/dar-yu/HomeCards";
 import { HeroStrip } from "@/components/sites/dar-yu/PageHero";
+import { assetPath } from "@/lib/assetPath";
 import "./diy-pack.css";
 
 export const metadata: Metadata = {
@@ -67,7 +68,7 @@ export default function DiyPackPage() {
               <Link key={it.num} href={it.href} className="dy-pack-card">
                 <div className="dy-pack-card__img">
                   <img
-                    src={`/sites/dar-yu/images/${it.img}`}
+                    src={assetPath(`/sites/dar-yu/images/${it.img}`)}
                     alt={it.name}
                     loading="lazy"
                   />

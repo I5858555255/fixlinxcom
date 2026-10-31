@@ -3,6 +3,7 @@ import { Header } from "@/components/sites/dar-yu/Header";
 import { Footer } from "@/components/sites/dar-yu/Footer";
 import { ContactForm } from "@/components/sites/dar-yu/ContactForm";
 import { PageCard } from "@/components/sites/dar-yu/HomeCards";
+import { assetPath } from "@/lib/assetPath";
 import "./contact.css";
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export default function ContactPage() {
       <main>
         <section className="contact-full">
           <div className="contact-full__img">
-            <img src="/images/factory/drone-exterior-1.jpg" alt="Fixlinx facility" />
+            <img src={assetPath("/images/factory/drone-exterior-1.jpg")} alt="Fixlinx facility" />
           </div>
           <div className="contact-full__content">
             <h1 className="contact-full__title">CONTACT US</h1>

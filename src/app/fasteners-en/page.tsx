@@ -3,6 +3,7 @@ import { Header } from "@/components/sites/dar-yu/Header";
 import { Footer } from "@/components/sites/dar-yu/Footer";
 import { PageCard } from "@/components/sites/dar-yu/HomeCards";
 import { HeroStrip } from "@/components/sites/dar-yu/PageHero";
+import { assetPath } from "@/lib/assetPath";
 import "./fasteners.css";
 
 export const metadata: Metadata = {
@@ -87,7 +88,7 @@ export default function FastenersPage() {
                 <div className="fasteners-group__imgs">
                   {g.imgs.map((src, i) => (
                     <figure key={i} className="fasteners-photo">
-                      <img src={src} alt={`${g.name} — photo ${i + 1}`} loading="lazy" />
+                      <img src={assetPath(src)} alt={`${g.name} — photo ${i + 1}`} loading="lazy" />
                     </figure>
                   ))}
                 </div>

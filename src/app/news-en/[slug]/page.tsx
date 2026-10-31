@@ -6,6 +6,7 @@ import { Footer } from "@/components/sites/dar-yu/Footer";
 import { PageCard } from "@/components/sites/dar-yu/HomeCards";
 import { HeroStrip } from "@/components/sites/dar-yu/PageHero";
 import { getArticle, getNewsArticles } from "../lib";
+import { assetPath } from "@/lib/assetPath";
 import "../news.css";
 
 /** Required for GitHub Pages static export: pre-render one page per article
