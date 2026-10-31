@@ -4,20 +4,33 @@
 // (hero images, catalog covers, PDF links) all store PUBLIC asset paths
 // like "/images/fasteners-hero.jpg" — the form that is valid on a plain
 // node/Vercel deploy. On GitHub Pages the site lives under "/fixlinxcom/",
-// so those paths must be prefixed at render time.
+// so those paths must be prefixed.
 //
-// How it works:
-//  - Next.js "basePath" (set in next.config.ts for Pages builds) makes the
-//    framework-issued URLs (chunks, css, next/link hrefs, the inlined
-//    buildManifest) correct automatically.
-//  - This helper covers the remaining "public asset" URLs that bypass the
-//    framework: raw <img src>, <a href>, <iframe src>, and CSS @font-face
-//    / url() references (compiled at build time, so PostCSS emits them
-//    as-is and the browser resolves them against the page URL — under the
-//    /fixlinxcom/ prefix they hit a non-existent /fixlinxcom/fonts/...).
-//  - The prefix is detected from window.location.pathname at runtime:
-//    Pages → first path segment "fixlinxcom" → prefix "/fixlinxcom";
-//    localhost / any other host → no prefix → original path unchanged.
+// Two mechanisms cover the full surface:
+//
+//  1. BUILD-TIME (Pages only, NEXT_OUTPUT=static):
+//       next.config.ts sets basePath="/fixlinxcom", which makes Next
+//       prefix every framework-issued URL (<link>, <script src>,
+//       next/link hrefs, the inlined buildManifest chunk refs, next/image).
+//     The same config also patches source .css files in place before
+//     compilation — url("/fonts/...") → url("/fixlinxcom/fonts/...") —
+//     and restores them on process exit.
+//
+//  2. RUNTIME (all deploys, self-guards on location):
+//     This helper prefixes raw <img src>, <a href>, <iframe src> values
+//     that come from data files / component constants (not covered by
+//     basePath). Detection: first path segment of window.location.pathname
+//     equals "fixlinxcom" → prefix "/fixlinxcom"; otherwise no-op.
+//     On node-server / localhost the first segment is never "fixlinxcom",
+//     so the original root-relative paths pass through unchanged.
+//
+// SSG caveat: during static pre-render there is no window, so
+// assetPath() returns the raw path. The static HTML therefore ships the
+// unprefixed src; the runtime script in src/app/layout.tsx (inline,
+// MutationObserver-aware) re-writes those attributes on load, which is
+// the same code path that fixes post-navigation DOM swaps. The visual
+// flash on initial paint is bounded by the layout script running before
+// the first paint of any routed content.
 //
 // Idempotent: paths that already carry the prefix are returned as-is, so
 // calling assetPath() twice never produces "/fixlinxcom/fixlinxcom/...".
@@ -27,8 +40,6 @@ let cached: string | null = null;
 function detectPrefix(): string {
   if (typeof window === "undefined") return ""; // SSR / build-time
   if (cached !== null) return cached;
-  // Pages deploys have basePath=/fixlinxcom: page URLs always start with it,
-  // so the FIRST path segment identifies the deployment root.
   const seg = window.location.pathname.split("/").filter(Boolean)[0] ?? "";
   cached = seg === "fixlinxcom" ? "/fixlinxcom" : "";
   return cached;
