@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/sites/dar-yu/Header";
-import { Footer } from "@/components/sites/dar-yu/Footer";
-import { PageCard } from "@/components/sites/dar-yu/HomeCards";
-import { HeroStrip } from "@/components/sites/dar-yu/PageHero";
+import { Header } from "@/components/sites/fixlinx/Header";
+import { Footer } from "@/components/sites/fixlinx/Footer";
+import { PageCard } from "@/components/sites/fixlinx/HomeCards";
+import { HeroStrip } from "@/components/sites/fixlinx/PageHero";
 import { assetPath } from "@/lib/assetPath";
 import "./download.css";
 
@@ -46,14 +46,14 @@ export default function DownloadPage() {
                 <div className="download-row__actions">
                   <a
                     className="download-row__action"
-                    href={assetPath(`/sites/dar-yu/pdfs/${f.pdf}`)}
+                    href={assetPath(`/sites/fixlinx/pdfs/${f.pdf}`)}
                     download
                   >
                     DOWNLOAD PDF &darr;
                   </a>
                   <a
                     className="download-row__action download-row__action--down"
-                    href={assetPath(`/sites/dar-yu/pdfs/${f.pdf}`)}
+                    href={assetPath(`/sites/fixlinx/pdfs/${f.pdf}`)}
                     target="_blank"
                     rel="noreferrer"
                   >

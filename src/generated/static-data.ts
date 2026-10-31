@@ -23,283 +23,283 @@ export const DIY_PAGES: DiyPage[] = [
  {
   "slug": "01-1-buckets-square-en",
   "title": "Four-Cavity Box \u00b7 Set 1",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-4-phillip-cement-screw-kit.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-4-phillip-cement-screw-kit.png",
   "cards": []
  },
  {
   "slug": "01-2-buckets-square-en",
   "title": "Four-Cavity Box \u00b7 Set 2",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "01-3-buckets-square-en",
   "title": "Four-Cavity Box \u00b7 Set 3",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "01-4-buckets-square-en",
   "title": "Four-Cavity Box \u00b7 Set 4",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "02-buckets-round-en",
   "title": "Buckets (Round)",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-6-hex-nut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-6-hex-nut.png",
   "cards": []
  },
  {
   "slug": "03-handy-pack-051-en",
   "title": "Handy Pack 051",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-8-tv-mount-screw.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-8-tv-mount-screw.png",
   "cards": []
  },
  {
   "slug": "04-1-handy-pack-052-053-en",
   "title": "Handy Pack 052 / 053 \u00b7 Set 1",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-9-blind-rivet.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-9-blind-rivet.png",
   "cards": []
  },
  {
   "slug": "04-2-handy-pack-052-053-en",
   "title": "Handy Pack 052 / 053 \u00b7 Set 2",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "04-3-handy-pack-052-053-en",
   "title": "Handy Pack 052 / 053 \u00b7 Set 3",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "05-1-blow-case-en",
   "title": "Twelve-Cavity Box \u00b7 Set 1",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "05-2-blow-case-en",
   "title": "Twelve-Cavity Box \u00b7 Set 2",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "06-1-handy-pack-c12-en",
   "title": "Handy Pack C12 \u00b7 Set 1",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-lg6-blind-rivet.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-lg6-blind-rivet.png",
   "cards": []
  },
  {
   "slug": "06-2-handy-pack-c12-en",
   "title": "Handy Pack C12 \u00b7 Set 2",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "06-3-handy-pack-c12-en",
   "title": "Handy Pack C12 \u00b7 Set 3",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "07-handy-pack-c14-en",
   "title": "Handy Pack C14",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-lg6-dome-cap-nut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-lg6-dome-cap-nut.png",
   "cards": []
  },
  {
   "slug": "08-handy-pack-067-en",
   "title": "Handy Pack 067",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-6-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-6-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "09-handy-pack-022-en",
   "title": "Handy Pack 022",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-6-plain-washer.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-6-plain-washer.png",
   "cards": []
  },
  {
   "slug": "10-metal-case-en",
   "title": "Metal Case",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-6-spring-washer.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-6-spring-washer.png",
   "cards": []
  },
  {
   "slug": "11-1-tower-en",
   "title": "Tower \u00b7 Set 1",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-plain-spring-washer.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-plain-spring-washer.png",
   "cards": []
  },
  {
   "slug": "11-2-tower-en",
   "title": "Tower \u00b7 Set 2",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "12-1-small-box-054-en",
   "title": "Small Box 054 \u00b7 Set 1",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-6-stainless-set-screw.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-6-stainless-set-screw.png",
   "cards": []
  },
  {
   "slug": "12-2-small-box-054-en",
   "title": "Small Box 054 \u00b7 Set 2",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "13-1-small-box-240-en",
   "title": "Small Box 240 \u00b7 Set 1",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-6-metric-socket-head-screw.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-6-metric-socket-head-screw.png",
   "cards": []
  },
  {
   "slug": "13-2-small-box-240-en",
   "title": "Small Box 240 \u00b7 Set 2",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "14-1-small-box-239-en",
   "title": "Small Box 239 \u00b7 Set 1",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-6-truss-head-drill-screw.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-6-truss-head-drill-screw.png",
   "cards": []
  },
  {
   "slug": "14-2-small-box-239-en",
   "title": "Small Box 239 \u00b7 Set 2",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "15-1-small-box-020-en",
   "title": "Small Box 020 \u00b7 Set 1",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-6-flush-head-self-tapping-screw.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-6-flush-head-self-tapping-screw.png",
   "cards": []
  },
  {
   "slug": "15-2-small-box-020-en",
   "title": "Small Box 020 \u00b7 Set 2",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "16-1-mini-box-002-421-en",
   "title": "Mini Box 002 / 421 \u00b7 Set 1",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-6-dome-cap-nut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-6-dome-cap-nut.png",
   "cards": []
  },
  {
   "slug": "16-2-mini-box-002-421-en",
   "title": "Mini Box 002 / 421 \u00b7 Set 2",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "16-3-mini-box-002-421-en",
   "title": "Mini Box 002 / 421 \u00b7 Set 3",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "17-1-mini-box-003-en",
   "title": "Mini Box 003 \u00b7 Set 1",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-6-flat-head-self-tapping-screw.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-6-flat-head-self-tapping-screw.png",
   "cards": []
  },
  {
   "slug": "17-2-mini-box-003-en",
   "title": "Mini Box 003 \u00b7 Set 2",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "17-3-mini-box-003-en",
   "title": "Mini Box 003 \u00b7 Set 3",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "17-4-mini-box-003-en",
   "title": "Mini Box 003 \u00b7 Set 4",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "17-5-mini-box-003-en",
   "title": "Mini Box 003 \u00b7 Set 5",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "18-1-mini-box-030-en",
   "title": "Mini Box 030 \u00b7 Set 1",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-6-flat-head-drill-screw.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-6-flat-head-drill-screw.png",
   "cards": []
  },
  {
   "slug": "18-2-mini-box-030-en",
   "title": "Mini Box 030 \u00b7 Set 2",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "19-1-ps-box-en",
   "title": "PS Box \u00b7 Set 1",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-6-us-flat-head-screw.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-6-us-flat-head-screw.png",
   "cards": []
  },
  {
   "slug": "19-2-ps-box-en",
   "title": "PS Box \u00b7 Set 2",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "19-3-ps-box-en",
   "title": "PS Box \u00b7 Set 3",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "19-4-ps-box-en",
   "title": "PS Box \u00b7 Set 4",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "19-5-ps-box-en",
   "title": "PS Box \u00b7 Set 5",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "19-6-ps-box-en",
   "title": "PS Box \u00b7 Set 6",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "19-7-ps-box-en",
   "title": "PS Box \u00b7 Set 7",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "19-8-ps-box-en",
   "title": "PS Box \u00b7 Set 8",
-  "cover": "/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png",
   "cards": []
  },
  {
   "slug": "20-more-selections-en",
   "title": "More Selections",
-  "cover": "/sites/dar-yu/images/diy-boxes/blister-pom-drywall-self-tapping-kit.png",
+  "cover": "/sites/fixlinx/images/diy-boxes/blister-pom-drywall-self-tapping-kit.png",
   "cards": []
  }
 ];

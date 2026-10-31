@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/sites/dar-yu/Header";
-import { Footer } from "@/components/sites/dar-yu/Footer";
-import { PageCard } from "@/components/sites/dar-yu/HomeCards";
-import { HeroStrip } from "@/components/sites/dar-yu/PageHero";
+import { Header } from "@/components/sites/fixlinx/Header";
+import { Footer } from "@/components/sites/fixlinx/Footer";
+import { PageCard } from "@/components/sites/fixlinx/HomeCards";
+import { HeroStrip } from "@/components/sites/fixlinx/PageHero";
 import { getArticle, getNewsArticles } from "../lib";
 import { assetPath } from "@/lib/assetPath";
 import "../news.css";

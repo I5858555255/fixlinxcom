@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/sites/dar-yu/Header";
-import { Footer } from "@/components/sites/dar-yu/Footer";
-import { ContactForm } from "@/components/sites/dar-yu/ContactForm";
-import { PageCard } from "@/components/sites/dar-yu/HomeCards";
+import { Header } from "@/components/sites/fixlinx/Header";
+import { Footer } from "@/components/sites/fixlinx/Footer";
+import { ContactForm } from "@/components/sites/fixlinx/ContactForm";
+import { PageCard } from "@/components/sites/fixlinx/HomeCards";
 import { assetPath } from "@/lib/assetPath";
 import "./contact.css";
 

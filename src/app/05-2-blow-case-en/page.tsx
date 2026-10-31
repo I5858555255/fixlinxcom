@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/sites/dar-yu/Header";
-import { Footer } from "@/components/sites/dar-yu/Footer";
-import { PageCard } from "@/components/sites/dar-yu/HomeCards";
-import { getDiyPage, type DiyPage } from "@/components/sites/dar-yu/DiyLib";
+import { Header } from "@/components/sites/fixlinx/Header";
+import { Footer } from "@/components/sites/fixlinx/Footer";
+import { PageCard } from "@/components/sites/fixlinx/HomeCards";
+import { getDiyPage, type DiyPage } from "@/components/sites/fixlinx/DiyLib";
 import { assetPath } from "@/lib/assetPath";
 import "./diy-sub.css";
 

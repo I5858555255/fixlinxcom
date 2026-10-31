@@ -6,7 +6,7 @@ GitHub Pages project sites are served under `/<user>/<repo>/` (here
 URLs for every asset:
 
 - Chunk CSS/JS: `/_next/static/css/*.css`, `/_next/static/chunks/*.js`
-- Public assets: `/images/...`, `/fonts/...`, `/sites/dar-yu/...`
+- Public assets: `/images/...`, `/fonts/...`, `/sites/fixlinx/...`
 
 The browser resolved these against the origin root
 (`i5858555255.github.io/_next/...`, `/images/...`) → all 404.

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/sites/dar-yu/Header";
-import { Footer } from "@/components/sites/dar-yu/Footer";
-import { PageCard } from "@/components/sites/dar-yu/HomeCards";
-import { HeroStrip } from "@/components/sites/dar-yu/PageHero";
+import { Header } from "@/components/sites/fixlinx/Header";
+import { Footer } from "@/components/sites/fixlinx/Footer";
+import { PageCard } from "@/components/sites/fixlinx/HomeCards";
+import { HeroStrip } from "@/components/sites/fixlinx/PageHero";
 import { assetPath } from "@/lib/assetPath";
 import "./fasteners.css";
 

@@ -507,7 +507,7 @@ export function ManageClient() {
                   onChange={(e) =>
                     setDiyDraft({ ...diyDraft, cover: e.target.value })
                   }
-                  placeholder="/sites/dar-yu/images/diy-boxes/box-12-hex-nut-nylon-locknut.png"
+                  placeholder="/sites/fixlinx/images/diy-boxes/box-12-hex-nut-nylon-locknut.png"
                 />
               </label>
               <label>
