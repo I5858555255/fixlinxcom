@@ -23,7 +23,23 @@ import path from "node:path";
  * basePath — local dev on localhost:3000 keeps working as-is.
  */
 const isPages = process.env.NEXT_OUTPUT === "static";
-const PAGES_BASE = "/fixlinxcom";
+// GitHub Actions sets NEXT_PUBLIC_PAGES_BASE from a repo variable.
+// When the variable is UNSET or EMPTY, default to the sub-path form.
+// To switch to a custom-domain root build, set the variable to "fixlinxcom"
+// (any non-empty value that is NOT the base path prefix — see docs).
+//
+// Logic:
+//   NEXT_PUBLIC_PAGES_BASE unset/empty  → basePath = "/fixlinxcom" (current)
+//   NEXT_PUBLIC_PAGES_BASE = "root"      → basePath omitted        (custom domain)
+//   NEXT_PUBLIC_PAGES_BASE = "/fixlinxcom" → basePath = "/fixlinxcom" (explicit)
+const RAW_BASE = process.env.NEXT_PUBLIC_PAGES_BASE ?? "";
+const PAGES_BASE: string =
+  RAW_BASE === "" || RAW_BASE === undefined
+    ? "/fixlinxcom"          // default: GitHub Pages sub-path
+    : RAW_BASE;             // explicit value (use "root" sentinel for root build)
+// Use a sentinel value to mean "no basePath" (custom domain root build)
+const HAS_BASE = PAGES_BASE !== "root" && PAGES_BASE !== "";
+const EFFECTIVE_BASE = HAS_BASE ? PAGES_BASE : "";
 
 const API_STUB = `/* AUTO-STUB: API routes are unavailable in the GitHub Pages static export. */
 import { NextResponse } from "next/server";
@@ -90,38 +106,45 @@ if (isPages) {
   );
 
   // 3. Prefix public-asset CSS url() references (/fonts/, /images/, /sites/)
-  //    with /fixlinxcom so @font-face + background images resolve under the
-  //    GitHub Pages sub-path. PostCSS emits absolute paths verbatim; the
-  //    browser resolves them against the origin root, which misses the
-  //    project sub-directory. Source files are patched in place and the
-  //    originals restored on process exit (same pattern as the force-dynamic
-  //    and API-stub steps above), so node-server mode is unaffected.
-  const srcCssWalk = (d: string, out: string[]) => {
-    if (!fs.existsSync(d)) return;
-    for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
-      const full = path.join(d, entry.name);
-      if (entry.isDirectory()) srcCssWalk(full, out);
-      else if (entry.name.endsWith(".css")) out.push(full);
+  //    with the base path (default /fixlinxcom) so @font-face + background
+  //    images resolve under the GitHub Pages sub-path. No-op when
+  //    NEXT_PUBLIC_PAGES_BASE="" (custom-domain root deployment).
+  //    Source files are patched in place and the originals restored on
+  //    process exit, so node-server mode is unaffected.
+  if (HAS_BASE) {
+    const srcCssWalk = (d: string, out: string[]) => {
+      if (!fs.existsSync(d)) return;
+      for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
+        const full = path.join(d, entry.name);
+        if (entry.isDirectory()) srcCssWalk(full, out);
+        else if (entry.name.endsWith(".css")) out.push(full);
+      }
+    };
+    const cssFiles: string[] = [];
+    srcCssWalk(path.join(process.cwd(), "src"), cssFiles);
+    const cssPatched: Array<{ file: string; original: string }> = [];
+    const cssRe = /url\(\s*(["']?)(\/(?:images|fonts|sites)\/[A-Za-z0-9\-_./]+)(["']?)\s*\)/g;
+    for (const file of cssFiles) {
+      const original = fs.readFileSync(file, "utf-8");
+      const patchedText = original.replace(cssRe, (m, q1: string, p: string, q2: string) =>
+        p.startsWith(EFFECTIVE_BASE + "/") ? m : `url(${q1}${EFFECTIVE_BASE}${p}${q2})`,
+      );
+      if (patchedText !== original) {
+        fs.writeFileSync(file, patchedText, "utf-8");
+        cssPatched.push({ file, original });
+      }
     }
-  };
-  const cssFiles: string[] = [];
-  srcCssWalk(path.join(process.cwd(), "src"), cssFiles);
-  const cssPatched: Array<{ file: string; original: string }> = [];
-  const cssRe = /url\(\s*(["']?)(\/(?:images|fonts|sites)\/[A-Za-z0-9\-_./]+)(["']?)\s*\)/g;
-  for (const file of cssFiles) {
-    const original = fs.readFileSync(file, "utf-8");
-    const patchedText = original.replace(cssRe, (m, q1: string, p: string, q2: string) =>
-      p.startsWith(PAGES_BASE + "/") ? m : `url(${q1}${PAGES_BASE}${p}${q2})`,
+    for (const { file, original } of cssPatched) {
+      restoreFns.push(() => fs.writeFileSync(file, original, "utf-8"));
+    }
+    console.log(
+      `[next.config] Pages static export: prefixed css url() with ${PAGES_BASE} in ${cssPatched.length} files`,
     );
-    if (patchedText !== original) {
-      fs.writeFileSync(file, patchedText, "utf-8");
-      cssPatched.push({ file, original });
-    }
+  } else {
+    console.log(
+      "[next.config] Pages static export: NEXT_PUBLIC_PAGES_BASE empty — skipping CSS url() prefix",
+    );
   }
-  for (const { file, original } of cssPatched) {
-    restoreFns.push(() => fs.writeFileSync(file, original, "utf-8"));
-  }
-  console.log(`[next.config] Pages static export: prefixed css url() in ${cssPatched.length} files`);
 
   // 4. /assets-en redirect() is unsupported by static export; swap it for
   //    a meta-refresh page (restored after build).
@@ -157,7 +180,9 @@ const nextConfig: NextConfig = {
         // GitHub Pages project site lives at /<user>/<repo>/; every
         // framework-issued URL gets this prefix. Do NOT add assetPrefix —
         // it would prefix asset URLs a second time (/fixlinxcom/fixlinxcom/...).
-        basePath: PAGES_BASE,
+        // With NEXT_PUBLIC_PAGES_BASE="root" the site is served at root —
+        // omit basePath so all URLs resolve at "/".
+        ...(HAS_BASE ? { basePath: EFFECTIVE_BASE } : {}),
       }
     : {}),
 };

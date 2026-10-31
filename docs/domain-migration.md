@@ -1,95 +1,107 @@
 # www.fixlinx.com 域名迁移 — 代码侧准备与切换手册
 
-> 生成时间：2026-10-31
-> 代码提交：`9e765fd`（SEO 套件）
+> 更新时间：2026-10-31（补充：Namecheap DNS 现状 + 根路径构建机制）
 > 当前线上：`https://i5858555255.github.io/fixlinxcom/`（GitHub Pages 项目站，仍有效）
 
 ---
 
-## 1. 代码现状（已完成）
+## 0. 当前 DNS 现状（2026-10-31 公开查询结果）
 
-| 项目 | 状态 | 说明 |
-|---|---|---|
-| 站点基础 URL 环境变量化 | ✅ | `src/lib/seo.ts` 中 `NEXT_PUBLIC_SITE_ORIGIN`（默认 `https://i5858555255.github.io`）+ `NEXT_PUBLIC_PAGES_BASE`（默认 `/fixlinxcom`）。切域名时只需在构建时设两个环境变量，**无需改任何源码** |
-| 每页 canonical 链接 | ✅ | 所有 63 个路由均输出 `rel="canonical"`，值由 `absoluteUrl()` 动态生成——切域名后自动跟随环境变量变化 |
-| OpenGraph / Twitter 卡片 | ✅ | 每页 `og:url`、`og:image`、`twitter:card` 均用绝对 URL（基于 `SITE_BASE`） |
-| sitemap.xml | ✅ | `scripts/generate-seo.py` 构建后生成，63 条 URL，域名从 `FIXLINX_SITEMAP_BASE_URL` 环境变量或默认值取 |
-| robots.txt | ✅ | 同一脚本生成；Disallow `/manage/ /assets-en/ /api/`；显式允许 GPTBot / ClaudeBot / PerplexityBot；Sitemap 行自动跟随 |
-| JSON-LD 结构化数据 | ✅ | 全站 `<head>` 注入 Organization；首页额外 WebSite；8 个主页面 BreadcrumbList；新闻详情页 Article |
-| llms.txt（GEO） | ✅ | `public/llms.txt` 已上线，含公司事实、站点结构、LLM 可引用的关键信息 |
-| 品牌事实单一来源 | ✅ | `BRAND` 常量在 `src/lib/seo.ts`：名称、邮箱、电话、办公室/工厂地址。注意：`BRAND.website` 已写为 `https://www.fixlinx.com`（**意图域名**），切域名前它是"指向未来"的字符串；目前未渲染到页面（仅 Organization 的 `url` 用 `absoluteUrl("/")`，仍指 Pages），所以无误导风险 |
-| CI 构建时生成 | ✅ | workflow 中 `python scripts/generate-seo.py --output-dir out` + SEO smoke check（验证 sitemap/robots 存在、XML 合法、首页含 canonical） |
+| 查询 | 结果 |
+|---|---|
+| `fixlinx.com` A | `192.64.119.84`（Namecheap 默认未启用解析 / parking IP） |
+| `fixlinx.com` NS | 当前注册商 Namecheap（DNS 记录在 Namecheap 面板管理） |
+| `www.fixlinx.com` A / CNAME | **无记录**（超时 / NXDOMAIN） |
+| 第三方残留 | 无 Wix / `dar-yu` / `wixstatic` 域名残留 |
 
-**关键设计**：切换域名时**不改一行代码**，只需：
-1. GitHub Pages 设置里把自定义域名指向 `www.fixlinx.com`（见下节）
-2. （可选）CI 中设 `FIXLINX_SITEMAP_BASE_URL=https://www.fixlinx.com` 并（可选）`NEXT_PUBLIC_PAGES_BASE=""`——但注意 **Pages 自定义域名配置完成后站点实际部署在 `/`（根路径）而非 `/fixlinxcom/`**，所以 sitemap 基础 URL 和 basePath 都需要对应切换（见第 3 节切换步骤）
+结论：`www` 是全新记录，添加 A 记录不影响任何现有服务；裸域 `fixlinx.com` 目前指向 Namecheap 的 parking IP（`192.64.119.84`），**替换为 GitHub Pages IP 前该地址无实际服务，可以安全覆盖**。
 
-## 2. 切换前你（人工）需要完成的 DNS 步骤
+## 1. 切换机制（全部由 GitHub 仓库变量控制，不改源码）
 
-> 前提：`fixlinx.com` 域名已在你的域名注册商处（Cloudflare / Namecheap / 阿里云等），并且可以编辑 DNS 记录。
+本次代码改动后，整个切换只需要在 GitHub 仓库设置里改 **3 个 Variables**：
 
-### 步骤 A — 在注册商添加 DNS 记录（让 GitHub 接管）
-
-| 记录类型 | 名称 | 值 | 说明 |
+| 仓库变量（Settings → Secrets and variables → Variables） | 当前值（不设置 = 默认） | 切域名时设为 | 作用 |
 |---|---|---|---|
-| `A` | `@` | `185.199.108.153` | GitHub Pages IP（四个都要加，顺序无所谓） |
-| `A` | `@` | `185.199.109.153` | |
-| `A` | `@` | `185.199.110.153` | |
-| `A` | `@` | `185.199.111.153` | |
-| `CNAME` | `www` | `i5858555255.github.io` | 或同样用 4 条 A 记录指向 `www` |
-| `TXT` | `@` | `github-pages-verification-site=i5858555255.fixlinxcom` | GitHub 所有权验证（格式见 GitHub 设置页提示，以 GitHub 实际显示为准） |
+| `PAGES_BASE` | 未设置 → 默认 `/fixlinxcom` | `root` | 构建产物从 sub-path 切换为根路径（`basePath` 省略，CSS 前缀关闭，运行时脚本自动关闭） |
+| `SITE_ORIGIN` | 未设置 → `https://i5858555255.github.io` | `https://www.fixlinx.com` | canonical / OG / JSON-LD 的绝对 URL 基础 |
+| `SITEMAP_BASE_URL` | 未设置 → `https://i5858555255.github.io/fixlinxcom` | `https://www.fixlinx.com` | sitemap.xml / robots.txt 里的域名 |
 
-> ⚠️ 如果你当前在 **Cloudflare** 管理 DNS：将 A 记录的代理状态设为 **DNS only（灰色云朵）** 而不是 Proxied（橙色），否则 GitHub 验证会失败。
+三个变量读取链路（已验证）：
+- `PAGES_BASE` → `next.config.ts`（basePath + CSS url() 前缀开关）+ `src/lib/seo.ts`（SITE_BASE）+ `src/lib/assetPath.ts`（运行时前缀检测）
+- `SITE_ORIGIN` → `src/lib/seo.ts`（canonical / OG / Twitter / JSON-LD 绝对 URL）
+- `SITEMAP_BASE_URL` → `scripts/generate-seo.py`（sitemap + robots）
 
-### 步骤 B — 在 GitHub 仓库启用自定义域名
+**注意哨兵值**：`PAGES_BASE` 必须填字符串 `root`（不是空字符串），空字符串 = 未设置 = 保持 `/fixlinxcom` 默认行为。
 
-1. 打开 `https://github.com/I5858555255/fixlinxcom/settings`（仓库 Settings）
-2. 左侧 **Pages** 区块 → **Custom domain**
-3. 填入 `www.fixlinx.com` → **Save**
-4. 勾选 **Enforce HTTPS**（GitHub 会先下发临时证书；DNS 解析生效后证书自动换正式 Let's Encrypt 证书，通常几小时内完成）
+## 2. 你（人工）在 Namecheap 完成的 DNS 步骤
 
-### 步骤 C — 等 DNS 生效 + 验证
+> 路径：Namecheap 账户 → **Domain List** → `fixlinx.com` → **Manage** → **Advanced DNS**
 
-1. `ping www.fixlinx.com`（或 `nslookup`）返回上面四个 IP 之一
-2. 浏览器访问 `https://www.fixlinx.com` → 应显示当前站点内容（注意此时**路径行为取决于 GitHub 的站点类型**，见第 3 节）
-3. GitHub Settings → Pages 区块：domain 旁边显示绿色对勾 ✓
+### 步骤 A — 删除 Namecheap 默认的 A 记录（可选但建议）
 
-### 步骤 D — 切换构建配置（我执行，你确认后）
+Advanced DNS 里通常有一条 `A` / `@` / `192.64.119.84`（Namecheap parking）。删除它，避免切换后裸域仍指向 parking。
 
-切到自定义域名后，GitHub Pages 会**在根路径 `/` 提供服务**（不再是 `/fixlinxcom/`）。需要：
-- `NEXT_PUBLIC_PAGES_BASE` 设为 `""`（空，根路径）
-- `FIXLINX_SITEMAP_BASE_URL` 设为 `https://www.fixlinx.com`
-- 同时保留 `/fixlinxcom` 旧路径的兼容（按你的要求"不移除现有 /fixlinxcom 路径支持"）——方法见第 3 节
+### 步骤 B — 添加 GitHub Pages 的 4 条 A 记录（各 1 条）
 
-**这一步需要你确认后再做**，因为它会改变 basePath，必须与 GitHub Pages 自定义域名配置同步生效，否则会出现"框架资源 404"的中间状态。
+在 **Add New Record** 中依次添加 4 条 A 记录（Host 留空 = 裸域 `fixlinx.com`）：
 
-## 3. 切换时的兼容方案（`/fixlinxcom` 旧链接不失效）
+| Type | Host | Value | TTL |
+|---|---|---|---|
+| A | （空） | `185.199.108.153` | Auto |
+| A | （空） | `185.199.109.153` | Auto |
+| A | （空） | `185.199.110.153` | Auto |
+| A | （空） | `185.199.111.153` | Auto |
 
-由于 `trailingSlash: true` + `basePath` 的约束，**同一套静态产物无法同时以 `/` 和 `/fixlinxcom` 两种 basePath 输出框架 URL**。推荐方案（按优先级）：
+### 步骤 C — 添加 www 的 CNAME 记录
 
-1. **方案一（推荐，零代码改动）**：GitHub Pages 自定义域名生效后，把 `www.fixlinx.com` 作为主入口；旧链接 `i5858555255.github.io/fixlinxcom/...` **保持原样继续运行**（GitHub 项目站不受自定义域名影响）。两个入口各自独立、内容相同——不需要 301，也符合"不移除 /fixlinxcom 支持"的要求。
-2. **方案二（将来做）**：在注册商处把 `fixlinx.com`（裸域）做 301 → `www.fixlinx.com`；旧 Pages 项目站保留给存量外链，几个月后确认无流量再退役。
+| Type | Host | Value | TTL |
+|---|---|---|---|
+| CNAME | `www` | `fixlinx.com` | Auto |
 
-## 4. 切换后需要做的 SEO 登记（人工，5 分钟）
+> 用 CNAME → `fixlinx.com`（而不是直接 CNAME 到 `i5858555255.github.io`）的好处：以后如果 GitHub 换 IP 或换服务，只需改上面 4 条 A 记录，www 自动跟随。
+
+### 步骤 D — 验证 DNS 生效
+
+等 5–10 分钟（TTL）后，Namecheap 面板外执行（或用 [dnschecker.org](https://dnschecker.org)）：
+
+```
+nslookup fixlinx.com    → 应返回 185.199.108/109/110/111.153
+nslookup www.fixlinx.com → 应先解析到 fixlinx.com，再解析到同一组 IP
+```
+
+## 3. GitHub 侧操作（DNS 生效后）
+
+1. 打开 `https://github.com/I5858555255/fixlinxcom/settings`
+2. 左侧 **Pages** 区块 → **Custom domain**（如果没显示，先确认 Pages 已启用且来源为 `main` 分支 + `/` 根目录）
+3. 输入 `www.fixlinx.com` → **Save**
+4. 勾选 **Enforce HTTPS**，等待 10–30 分钟证书自动签发
+5. 页面顶部出现绿色 "This domain is verified" / 黄色 "pending" 提示——pending 属正常，等 DNS 传播 + 证书完成即可
+
+## 4. 切换构建（我在你确认 DNS + GitHub 验证通过后执行）
+
+在 GitHub 仓库 **Settings → Secrets and variables → Variables → Add repository variable** 添加 / 修改：
+
+| Variable name | Value |
+|---|---|
+| `PAGES_BASE` | `root` |
+| `SITE_ORIGIN` | `https://www.fixlinx.com` |
+| `SITEMAP_BASE_URL` | `https://www.fixlinx.com` |
+
+然后推送一次任意改动（或 workflow_dispatch）触发重建。构建后：
+- 站点部署在 `https://www.fixlinx.com/`（根路径，无 `/fixlinxcom/` 前缀）
+- 旧地址 `https://i5858555255.github.io/fixlinxcom/` **同时继续可用**（GitHub 项目站与自定义域名独立并存，满足"不移除 /fixlinxcom 路径支持"）
+
+## 5. 切换后 5 分钟 SEO 登记（人工）
 
 | 事项 | 位置 |
 |---|---|
-| Google Search Console 添加 `www.fixlinx.com` 属性，用 DNS TXT 或 HTML 标签验证 | search.google.com/search-console |
-| 提交新 sitemap `https://www.fixlinx.com/sitemap.xml` | 同上，Sitemaps 区块 |
-| 旧 Pages 属性保留，可加"更换网址"或提交 301（若采用方案二） | 同上 |
-| Bing Webmaster Tools（可选） | bingtools.microsoft.com |
-| 更新 `BRAND.website` 在 JSON-LD 中的体现（切换后自动正确，因为 `absoluteUrl` 跟随环境变量） | 无需手动 |
+| Google Search Console 添加 `www.fixlinx.com` 属性（DNS 验证：加一条 TXT 记录到 Namecheap） | search.google.com/search-console |
+| 提交 `https://www.fixlinx.com/sitemap.xml` | GSC → Sitemaps |
+| （可选）Bing Webmaster Tools 注册 + 提交 sitemap | bingtools.microsoft.com |
+| GSC 验证文件 / meta 标签 → 给我内容，我加进 `public/` 部署 | 代码侧 |
 
-## 5. 当前验证结果（代码 + 线上）
+## 6. 已知遗留事项
 
-- Pages 构建 exit 0；node-server 构建 exit 0
-- CI `#41180588904` success（含新 SEO smoke check）
-- 线上已验证：`sitemap.xml` 200（63 URL）、`robots.txt` 200、`llms.txt` 200
-- 首页 canonical / OG / JSON-LD 全部输出正确，指向 `https://i5858555255.github.io/fixlinxcom/`
-- 无 `dar-yu`、`wixstatic` 残留字符串
-
-## 6. 已知限制 / 待办
-
-- **OG 图片**：当前使用 `drone-interior-1.jpg`（工厂图，1600px 宽够用）。若想要品牌化的 1200×630 分享图（logo + slogan），需要设计一张新图放入 `public/images/` 并更新 `BRAND.ogImage`——待你提供素材。
-- **`foundingDate`** 等 Organization 字段：为避免虚构事实，JSON-LD 中未填写未经验证的字段。若你有确切成立年份/ISO 证书编号，告诉我补上。
-- **GSC 所有权验证文件**：等你在 Google Search Console 创建属性后，把验证用 meta 标签或 `googlexxxx.html` 文件给我，我加进 `public/` 并部署。
+- **OG 分享图**：当前为工厂图 `drone-interior-1.jpg`；如需品牌化 1200×630 图，提供素材后更新 `BRAND.ogImage` 即可
+- **JSON-LD 待补字段**：成立年份、ISO 证书编号——按 TODO 要求不虚构，有准确信息后补上
+- **`D:\projectAGI\fixlinx-nopages`**（node-server 版）未同步 SEO 改动，独立运行不受影响

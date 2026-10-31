@@ -1,24 +1,31 @@
 /**
  * Centralised SEO configuration for the Fixlinx site.
  *
- * SITE_ORIGIN is env-configurable so the same codebase works on:
- *   - GitHub Pages project site  (default, safe fallback)
- *   - Custom domain www.fixlinx.com (set NEXT_PUBLIC_SITE_ORIGIN at build)
+ * Three GitHub Actions repository variables control the full cutover:
  *
- * The Pages sub-path is always "/fixlinxcom" while the site is served from
- * the GitHub Pages project URL. When the custom domain is configured on
- * GitHub Pages, the site is served at root ("/"), so NEXT_PUBLIC_PAGES_BASE
- * should be set to "" at that time — the current config keeps "/fixlinxcom"
- * as the default to preserve the working production URL.
+ *   PAGES_BASE          — "" (default, sub-path) or "root" (custom domain)
+ *   SITE_ORIGIN         — default https://i5858555255.github.io,
+ *                          set to https://www.fixlinx.com after binding
+ *   SITEMAP_BASE_URL    — default = SITE_ORIGIN + PAGES_BASE,
+ *                          set to https://www.fixlinx.com after binding
+ *
+ * No source code changes are required to switch — only the repo
+ * variables in GitHub → Settings → Secrets and variables → Variables.
  */
 
 // ── Origin & base path (env-overridable) ──────────────────────────────────
 
 export const SITE_ORIGIN: string =
-  process.env.NEXT_PUBLIC_SITE_ORIGIN ?? "https://i5858555255.github.io";
+  process.env.NEXT_PUBLIC_SITE_ORIGIN?.trim() || "https://i5858555255.github.io";
 
+/**
+ * NEXT_PUBLIC_PAGES_BASE:
+ *   unset / ""  → "/fixlinxcom" (current GitHub Pages sub-path)
+ *   "root"      → ""            (custom-domain root deployment)
+ */
+const RAW_PAGES_BASE = process.env.NEXT_PUBLIC_PAGES_BASE?.trim() ?? "";
 export const PAGES_BASE: string =
-  process.env.NEXT_PUBLIC_PAGES_BASE ?? "/fixlinxcom";
+  RAW_PAGES_BASE === "root" ? "" : RAW_PAGES_BASE || "/fixlinxcom";
 
 /** Full production base URL (e.g. https://i5858555255.github.io/fixlinxcom) */
 export const SITE_BASE: string =

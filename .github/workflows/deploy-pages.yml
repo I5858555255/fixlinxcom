@@ -29,6 +29,25 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # Read from GitHub Actions repository variables (Settings → Secrets
+      # and variables → Variables → Add repository variable).
+      #
+      # While using the GitHub Pages project site (current, default):
+      #   PAGES_BASE            = ""   (unset or empty → script uses "/fixlinxcom")
+      #   SITE_ORIGIN           = ""   (unset or empty → script uses Pages URL)
+      #   SITEMAP_BASE_URL      = ""   (unset or empty → script uses Pages URL)
+      #
+      # After binding www.fixlinx.com as a custom domain on GitHub Pages:
+      #   PAGES_BASE            = ""   (site served at root "/")
+      #   SITE_ORIGIN           = "https://www.fixlinx.com"
+      #   SITEMAP_BASE_URL      = "https://www.fixlinx.com"
+      #
+      # These three variables control the entire cutover — no source code
+      # changes are needed.
+      NEXT_PUBLIC_PAGES_BASE: ${{ vars.PAGES_BASE }}
+      NEXT_PUBLIC_SITE_ORIGIN: ${{ vars.SITE_ORIGIN }}
+      FIXLINX_SITEMAP_BASE_URL: ${{ vars.SITEMAP_BASE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

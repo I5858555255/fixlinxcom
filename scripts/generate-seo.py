@@ -88,10 +88,9 @@ def main():
     out_dir = Path(args.output_dir).resolve()
     base_url = (
         args.base_url
-        or os.environ.get("FIXLINX_SITEMAP_BASE_URL")
+        or os.environ.get("FIXLINX_SITEMAP_BASE_URL", "").strip()
         or "https://i5858555255.github.io/fixlinxcom"
     )
-
     # Read disallow list from env or default
     default_disallow = ["/manage/", "/assets-en/", "/api/"]
     env_disallow = os.environ.get("FIXLINX_ROBOTS_DISALLOW", "")

@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { BRAND, SITE_ORIGIN, PAGES_BASE, absoluteUrl } from "@/lib/seo";
 
+// PAGES_BASE: "/fixlinxcom" (default) or "" (custom-domain root build,
+// set NEXT_PUBLIC_PAGES_BASE="root" at build time). Injected into the
+// runtime sub-path fix script below — no hardcoded segment string.
+const RUNTIME_BASE = PAGES_BASE; // "" when root deployment
+
 const metadataBase = new URL(
   PAGES_BASE ? `${SITE_ORIGIN}${PAGES_BASE}` : SITE_ORIGIN,
 );
@@ -66,9 +71,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{
             __html: `(function(){
   if (window.__fxA) return; window.__fxA = 1;
-  var seg = (window.location.pathname.split("/").filter(Boolean)[0]) || "";
-  if (seg !== "fixlinxcom") return;               // localhost / node-server: no-op
-  var P = "/" + seg;
+  // Build-time inject: PAGES_BASE is "/fixlinxcom" (sub-path deploy) or
+  // "" (custom-domain root deploy, NEXT_PUBLIC_PAGES_BASE="root").
+  // When empty, nothing to prefix — return immediately.
+  var base = ${JSON.stringify(RUNTIME_BASE)};
+  if (!base) return;
+  var P = base;
   function fx(p){ return (p && p.charAt(0)==="/" && p.indexOf(P)!==0) ? P + p : p; }
   function walk(root){
     root.querySelectorAll("img[src],source[src]").forEach(function(e){
@@ -86,7 +94,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", run, { once: true });
   } else { run(); }
-  // re-run after in-place DOM swaps (Next router navigation mounts new nodes)
   var mo = new MutationObserver(function(muts){
     for (var i = 0; i < muts.length; i++) {
       muts[i].addedNodes.forEach(function(n){

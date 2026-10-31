@@ -9,8 +9,9 @@
 // Two mechanisms cover the full surface:
 //
 //  1. BUILD-TIME (Pages only, NEXT_OUTPUT=static):
-//       next.config.ts sets basePath="/fixlinxcom", which makes Next
-//       prefix every framework-issued URL (<link>, <script src>,
+//       next.config.ts sets basePath (default "/fixlinxcom"; empty when
+//       NEXT_PUBLIC_PAGES_BASE="" for custom-domain root deploys), which
+//       makes Next prefix every framework-issued URL (<link>, <script src>,
 //       next/link hrefs, the inlined buildManifest chunk refs, next/image).
 //     The same config also patches source .css files in place before
 //     compilation — url("/fonts/...") → url("/fixlinxcom/fonts/...") —
@@ -19,9 +20,10 @@
 //  2. RUNTIME (all deploys, self-guards on location):
 //     This helper prefixes raw <img src>, <a href>, <iframe src> values
 //     that come from data files / component constants (not covered by
-//     basePath). Detection: first path segment of window.location.pathname
-//     equals "fixlinxcom" → prefix "/fixlinxcom"; otherwise no-op.
-//     On node-server / localhost the first segment is never "fixlinxcom",
+//     basePath). Detection uses the FIRST path segment of
+//     window.location.pathname: when it equals the build-time base path
+//     (injected via NEXT_PUBLIC_PAGES_BASE), the prefix is applied.
+//     On node-server / localhost the first segment is never the base,
 //     so the original root-relative paths pass through unchanged.
 //
 // SSG caveat: during static pre-render there is no window, so
@@ -35,13 +37,30 @@
 // Idempotent: paths that already carry the prefix are returned as-is, so
 // calling assetPath() twice never produces "/fixlinxcom/fixlinxcom/...".
 
+/**
+ * Build-time injected: the Pages base path.
+ *   - unset / ""      → "/fixlinxcom" (GitHub Pages sub-path, default)
+ *   - "root"          → ""            (custom-domain root deployment)
+ * NEXT_PUBLIC_PAGES_BASE is read by next.config.ts (build-time basePath)
+ * and here (runtime assetPath detection).
+ */
+const RAW_BASE: string =
+  process.env.NEXT_PUBLIC_PAGES_BASE?.trim() ?? "";
+const BUILD_BASE: string =
+  RAW_BASE === "root" ? "" : RAW_BASE || "/fixlinxcom";
+
 let cached: string | null = null;
 
 function detectPrefix(): string {
   if (typeof window === "undefined") return ""; // SSR / build-time
   if (cached !== null) return cached;
   const seg = window.location.pathname.split("/").filter(Boolean)[0] ?? "";
-  cached = seg === "fixlinxcom" ? "/fixlinxcom" : "";
+  const baseSeg = BUILD_BASE.replace(/^\//, "");
+  // For a root deployment (BUILD_BASE = "/fixlinxcom" but host is a custom
+  // domain served at /), the first path segment will be e.g. "products-en",
+  // which will never equal "fixlinxcom" — so no prefix is applied, which
+  // is correct (assets are at root).
+  cached = seg === baseSeg && baseSeg !== "" ? BUILD_BASE : "";
   return cached;
 }
 
