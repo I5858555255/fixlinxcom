@@ -4,11 +4,14 @@ import { Footer } from "@/components/sites/fixlinx/Footer";
 import { PageCard } from "@/components/sites/fixlinx/HomeCards";
 import { HeroStrip } from "@/components/sites/fixlinx/PageHero";
 import { assetPath } from "@/lib/assetPath";
+import { PAGE_META } from "@/lib/seo";
+import { seoMeta } from "@/lib/seoMeta";
+import { breadcrumbJsonLd } from "@/lib/seoJsonLd";
 import "./fasteners.css";
 
-export const metadata: Metadata = {
-  title: "FASTENERS | Fixlinx Industrial",
-};
+export const metadata: Metadata = seoMeta(PAGE_META.fasteners);
+
+const fasteners_breadcrumbLd = breadcrumbJsonLd("fasteners");
 
 // 5 fastener families, each with our own (compressed) photos.
 const GROUPS = [
@@ -63,6 +66,7 @@ const GROUPS = [
 export default function FastenersPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: fasteners_breadcrumbLd }} />
       <Header />
       <main>
         <HeroStrip

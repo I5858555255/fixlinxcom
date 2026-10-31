@@ -3,7 +3,8 @@
 # Every push to main:
 #   1. embeds data/diy + data/news into the bundle (static-data.ts)
 #   2. builds a plain static `out/` directory (no node server needed)
-#   3. publishes it to GitHub Pages
+#   3. generates sitemap.xml + robots.txt via scripts/generate-seo.py
+#   4. publishes it to GitHub Pages
 #
 # Local node-server mode is untouched: run `npm start` without
 # NEXT_OUTPUT=static and /api routes + /manage still work live.
@@ -48,6 +49,25 @@ jobs:
 
       - name: Build static export
         run: NEXT_OUTPUT=static npm run build
+
+      - name: Generate sitemap.xml + robots.txt
+        run: python scripts/generate-seo.py --output-dir out
+
+      - name: SEO smoke check
+        run: |
+          # verify sitemap and robots were generated and are well-formed
+          test -f out/sitemap.xml  || { echo "FAIL: out/sitemap.xml missing"; exit 1; }
+          test -f out/robots.txt   || { echo "FAIL: out/robots.txt missing"; exit 1; }
+          # verify sitemap is valid XML
+          python -c "
+          import xml.etree.ElementTree as ET, sys
+          ET.parse('out/sitemap.xml')
+          print('sitemap.xml: valid XML')
+          "
+          # verify at least one canonical link exists in index.html
+          grep -q 'rel="canonical"' out/index.html \
+            || { echo "WARN: no canonical link in index.html"; exit 1; }
+          echo "SEO smoke check passed"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

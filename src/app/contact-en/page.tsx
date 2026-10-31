@@ -4,15 +4,19 @@ import { Footer } from "@/components/sites/fixlinx/Footer";
 import { ContactForm } from "@/components/sites/fixlinx/ContactForm";
 import { PageCard } from "@/components/sites/fixlinx/HomeCards";
 import { assetPath } from "@/lib/assetPath";
+import { PAGE_META } from "@/lib/seo";
+import { seoMeta } from "@/lib/seoMeta";
+import { breadcrumbJsonLd } from "@/lib/seoJsonLd";
 import "./contact.css";
 
-export const metadata: Metadata = {
-  title: "CONTACT | Fixlinx Industrial",
-};
+export const metadata: Metadata = seoMeta(PAGE_META.contact);
+
+const contact_breadcrumbLd = breadcrumbJsonLd("contact");
 
 export default function ContactPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: contact_breadcrumbLd }} />
       <Header />
       <main>
         <section className="contact-full">

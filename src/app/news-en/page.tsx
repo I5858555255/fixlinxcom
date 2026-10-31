@@ -6,11 +6,14 @@ import { PageCard } from "@/components/sites/fixlinx/HomeCards";
 import { HeroStrip } from "@/components/sites/fixlinx/PageHero";
 import { getNewsArticles } from "./lib";
 import { assetPath } from "@/lib/assetPath";
+import { PAGE_META } from "@/lib/seo";
+import { seoMeta } from "@/lib/seoMeta";
+import { breadcrumbJsonLd } from "@/lib/seoJsonLd";
 import "./news.css";
 
-export const metadata: Metadata = {
-  title: "NEWS | Fixlinx Industrial",
-};
+export const metadata: Metadata = seoMeta(PAGE_META.news);
+
+const news_breadcrumbLd = breadcrumbJsonLd("news");
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +21,7 @@ export default function NewsPage() {
   const articles = getNewsArticles();
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: news_breadcrumbLd }} />
       <Header />
       <main>
         <HeroStrip

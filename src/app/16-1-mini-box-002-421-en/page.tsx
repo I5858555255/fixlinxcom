@@ -4,10 +4,32 @@ import { Footer } from "@/components/sites/fixlinx/Footer";
 import { PageCard } from "@/components/sites/fixlinx/HomeCards";
 import { getDiyPage, type DiyPage } from "@/components/sites/fixlinx/DiyLib";
 import { assetPath } from "@/lib/assetPath";
+import { PAGE_META, absoluteUrl, ogImageUrl } from "@/lib/seo";
 import "./diy-sub.css";
 
 export const metadata: Metadata = {
-  title: "DIY PACK - 16-1 Mini Box 002 421 | Fixlinx Industrial",
+  title: "DIY PACK - Mini Box 002-421 – 16-1 | Fixlinx Industrial",
+  description:
+    "View the mini box 002-421 – 16-1 fastener packaging page from Fixlinx Industrial. Product cards, specifications and format details.",
+  alternates: {
+    canonical: absoluteUrl("/16-1-mini-box-002-421-en/"),
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: absoluteUrl("/16-1-mini-box-002-421-en/"),
+    siteName: "Fixlinx",
+    title: "DIY PACK - Mini Box 002-421 – 16-1 | Fixlinx Industrial",
+    description:
+      "View the mini box 002-421 – 16-1 fastener packaging page from Fixlinx Industrial.",
+    images: [{ url: ogImageUrl() }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DIY PACK - Mini Box 002-421 – 16-1 | Fixlinx Industrial",
+    description: "View the mini box 002-421 – 16-1 fastener packaging page from Fixlinx Industrial.",
+    images: [ogImageUrl()],
+  },
 };
 
 export const dynamic = "force-dynamic";

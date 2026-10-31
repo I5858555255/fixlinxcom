@@ -4,11 +4,14 @@ import { Footer } from "@/components/sites/fixlinx/Footer";
 import { PageCard } from "@/components/sites/fixlinx/HomeCards";
 import { HeroStrip } from "@/components/sites/fixlinx/PageHero";
 import { assetPath } from "@/lib/assetPath";
+import { PAGE_META } from "@/lib/seo";
+import { seoMeta } from "@/lib/seoMeta";
+import { breadcrumbJsonLd } from "@/lib/seoJsonLd";
 import "./download.css";
 
-export const metadata: Metadata = {
-  title: "DOWNLOAD | Fixlinx Industrial",
-};
+export const metadata: Metadata = seoMeta(PAGE_META.download);
+
+const download_breadcrumbLd = breadcrumbJsonLd("download");
 
 const FILES = [
   {
@@ -23,6 +26,7 @@ const FILES = [
 export default function DownloadPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: download_breadcrumbLd }} />
       <Header />
       <main>
         <HeroStrip

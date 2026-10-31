@@ -1,15 +1,61 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { BRAND, SITE_ORIGIN, PAGES_BASE, absoluteUrl } from "@/lib/seo";
+
+const metadataBase = new URL(
+  PAGES_BASE ? `${SITE_ORIGIN}${PAGES_BASE}` : SITE_ORIGIN,
+);
 
 export const metadata: Metadata = {
-  title: "Fixlinx Industrial Co., Ltd. - Fasteners & Retail Packaging",
+  metadataBase,
+  title: {
+    default: "Fixlinx Industrial — Industrial Fasteners & DIY Packaging Manufacturer",
+    template: "%s | Fixlinx Industrial",
+  },
   description:
-    "Fixlinx Industrial Co., Ltd. supplies high-performance fasteners and retail-ready packaging formats, from Wenzhou, China to markets worldwide.",
+    "Fixlinx Industrial supplies high-performance industrial fasteners — wood, structural, decking and self-drilling screws — plus retail-ready DIY packaging formats, shipped globally from Wenzhou, China.",
+  openGraph: {
+    type: "website",
+    siteName: "Fixlinx Industrial",
+    locale: "en_US",
+    url: absoluteUrl("/"),
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
+
+/** JSON-LD Organization — injected into every page <head>. */
+function siteJsonLd() {
+  const org = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: BRAND.name,
+    legalName: BRAND.legalName,
+    url: absoluteUrl("/"),
+    email: BRAND.email,
+    telephone: BRAND.phone,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: BRAND.headOffice,
+      addressCountry: "CN",
+    },
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }}
+    />
+  );
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        {siteJsonLd()}
+      </head>
       <body>
         {children}
         {/* Unified sub-path fix (runtime): prefixes every absolute public-asset

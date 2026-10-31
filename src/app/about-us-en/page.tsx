@@ -4,11 +4,14 @@ import { Footer } from "@/components/sites/fixlinx/Footer";
 import { PageCard } from "@/components/sites/fixlinx/HomeCards";
 import { HeroStrip } from "@/components/sites/fixlinx/PageHero";
 import { assetPath } from "@/lib/assetPath";
+import { PAGE_META } from "@/lib/seo";
+import { seoMeta } from "@/lib/seoMeta";
+import { breadcrumbJsonLd } from "@/lib/seoJsonLd";
 import "./about.css";
 
-export const metadata: Metadata = {
-  title: "ABOUT US | Fixlinx Industrial",
-};
+export const metadata: Metadata = seoMeta(PAGE_META.about);
+
+const aboutBreadcrumbLd = breadcrumbJsonLd("about");
 
 const MAIN_PRODUCTS = [
   "Wood screw, Structural timber screw, Decking screw",
@@ -44,6 +47,10 @@ const CAROUSEL = [
 export default function AboutPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: aboutBreadcrumbLd }}
+      />
       <Header />
       <main>
         <HeroStrip

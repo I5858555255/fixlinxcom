@@ -4,10 +4,32 @@ import { Footer } from "@/components/sites/fixlinx/Footer";
 import { PageCard } from "@/components/sites/fixlinx/HomeCards";
 import { getDiyPage, type DiyPage } from "@/components/sites/fixlinx/DiyLib";
 import { assetPath } from "@/lib/assetPath";
+import { PAGE_META, absoluteUrl, ogImageUrl } from "@/lib/seo";
 import "./diy-sub.css";
 
 export const metadata: Metadata = {
-  title: "DIY PACK - 11-2 Tower | Fixlinx Industrial",
+  title: "DIY PACK - Tower – 11-2 | Fixlinx Industrial",
+  description:
+    "View the tower – 11-2 fastener packaging page from Fixlinx Industrial. Product cards, specifications and format details.",
+  alternates: {
+    canonical: absoluteUrl("/11-2-tower-en/"),
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: absoluteUrl("/11-2-tower-en/"),
+    siteName: "Fixlinx",
+    title: "DIY PACK - Tower – 11-2 | Fixlinx Industrial",
+    description:
+      "View the tower – 11-2 fastener packaging page from Fixlinx Industrial.",
+    images: [{ url: ogImageUrl() }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DIY PACK - Tower – 11-2 | Fixlinx Industrial",
+    description: "View the tower – 11-2 fastener packaging page from Fixlinx Industrial.",
+    images: [ogImageUrl()],
+  },
 };
 
 export const dynamic = "force-dynamic";

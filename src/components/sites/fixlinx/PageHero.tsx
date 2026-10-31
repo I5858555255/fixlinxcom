@@ -8,8 +8,7 @@ type Props = {
   sub?: string;
 };
 
-/** Full-bleed image strip with graphite overlay — restores the original
- *  Wix site's "expanded" full-width feel under the fixed header. */
+/** Full-bleed image strip with graphite overlay. */
 export function HeroStrip({ img, alt, title, sub }: Props) {
   return (
     <div className="page-hero" aria-hidden={!title ? undefined : false}>

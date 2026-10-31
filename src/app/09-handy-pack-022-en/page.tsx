@@ -4,10 +4,32 @@ import { Footer } from "@/components/sites/fixlinx/Footer";
 import { PageCard } from "@/components/sites/fixlinx/HomeCards";
 import { getDiyPage, type DiyPage } from "@/components/sites/fixlinx/DiyLib";
 import { assetPath } from "@/lib/assetPath";
+import { PAGE_META, absoluteUrl, ogImageUrl } from "@/lib/seo";
 import "./diy-sub.css";
 
 export const metadata: Metadata = {
-  title: "DIY PACK - 09 Handy Pack 022 | Fixlinx Industrial",
+  title: "DIY PACK - Handy Pack 022 | Fixlinx Industrial",
+  description:
+    "View the handy pack 022 fastener packaging page from Fixlinx Industrial. Product cards, specifications and format details.",
+  alternates: {
+    canonical: absoluteUrl("/09-handy-pack-022-en/"),
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: absoluteUrl("/09-handy-pack-022-en/"),
+    siteName: "Fixlinx",
+    title: "DIY PACK - Handy Pack 022 | Fixlinx Industrial",
+    description:
+      "View the handy pack 022 fastener packaging page from Fixlinx Industrial.",
+    images: [{ url: ogImageUrl() }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DIY PACK - Handy Pack 022 | Fixlinx Industrial",
+    description: "View the handy pack 022 fastener packaging page from Fixlinx Industrial.",
+    images: [ogImageUrl()],
+  },
 };
 
 export const dynamic = "force-dynamic";

@@ -5,11 +5,14 @@ import { Footer } from "@/components/sites/fixlinx/Footer";
 import { PageCard } from "@/components/sites/fixlinx/HomeCards";
 import { HeroStrip } from "@/components/sites/fixlinx/PageHero";
 import { assetPath } from "@/lib/assetPath";
+import { PAGE_META } from "@/lib/seo";
+import { seoMeta } from "@/lib/seoMeta";
+import { breadcrumbJsonLd } from "@/lib/seoJsonLd";
 import "./diy-pack.css";
 
-export const metadata: Metadata = {
-  title: "DIY PACK | Fixlinx Industrial",
-};
+export const metadata: Metadata = seoMeta(PAGE_META.diyPack);
+
+const diy_breadcrumbLd = breadcrumbJsonLd("diyPack");
 
 type DiyItem = {
   num: string;
@@ -47,6 +50,7 @@ const DIY_ITEMS: DiyItem[] = [
 export default function DiyPackPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: diy_breadcrumbLd }} />
       <Header />
       <main>
         <HeroStrip

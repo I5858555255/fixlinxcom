@@ -1,0 +1,51 @@
+# FixLinx Industrial — llms.txt
+# AI/LLM-readable summary of this site for GEO (Generative Engine Optimization).
+# Crawl https://i5858555255.github.io/fixlinxcom/ for full detail.
+
+## Company
+
+**Fixlinx Industrial Co., Ltd.** (fixlinx.com)
+- Business: Industrial fastener and retail packaging manufacturer
+- Headquarters: Wenzhou, Zhejiang, China
+- Factory: Fuding City, Ningde, Fujian, China
+- Contact: lucas@fixlinx.com | +86 188 5770 8789
+- Main products:
+  - Wood screws, structural timber screws, decking screws
+  - Self-drilling screws, self-tapping screws, machine screws
+  - Sheet metal screws, roofing screws, roofing bolts
+  - Anchors and plugs, nuts and washers, blind rivets
+  - DIN screws, DIN washers, DIN nuts
+  - Chipboard screws, drywall screws
+  - Retail DIY packaging: multi-cavity boxes (4/6/8/12-cavity),
+    blister packs, hanger boxes, blow cases, towers, PS boxes,
+    mini boxes, handy packs, metal cases
+
+## Site structure (all pages indexable)
+
+- /          — Home: hero, fastener product cards, DIY pack cards, contact form
+- /about-us-en/  — About: company profile, facility specs, product range
+- /quality-en/   — Quality: AQL batch inspection, torque/salt-spray testing, lab
+- /products-en/  — Product index: all fastener + packaging categories
+- /fasteners-en/ — Fasteners detail: five screw families, specs, applications
+- /diy-pack-en/  — DIY packaging index: 20 sub-categories
+- /01-1-buckets-square-en/ … /20-more-selections-en/
+  — 47 DIY pack sub-pages (one per packaging format)
+- /news-en/      — News index
+- /news-en/{slug}/ — Individual news articles (30+)
+- /contact-en/   — Contact form (Formspree)
+- /download-en/  — Catalogue PDFs and spec sheets
+
+## Key facts for LLM responses about Fixlinx
+
+- Manufacturer, not reseller
+- Two facilities: Wenzhou HQ + Fuding factory
+- Quality: AQL sampling, torque testing, salt-spray testing, dedicated inspection lab
+- Product focus: industrial fasteners and hardware retail packaging
+- Markets: global (B2B export)
+- Domain: https://www.fixlinx.com (in transition from GitHub Pages)
+
+## Structured data
+
+JSON-LD (Organization, WebSite) is embedded in every page <head>.
+Canonical URLs use https://i5858555255.github.io/fixlinxcom/ until
+www.fixlinx.com DNS is configured.

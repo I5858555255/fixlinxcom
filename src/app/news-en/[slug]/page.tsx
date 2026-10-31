@@ -7,6 +7,9 @@ import { PageCard } from "@/components/sites/fixlinx/HomeCards";
 import { HeroStrip } from "@/components/sites/fixlinx/PageHero";
 import { getArticle, getNewsArticles } from "../lib";
 import { assetPath } from "@/lib/assetPath";
+import { newsMeta } from "@/lib/seo";
+import { seoMeta } from "@/lib/seoMeta";
+import { articleJsonLd } from "@/lib/seoJsonLd";
 import "../news.css";
 
 /** Required for GitHub Pages static export: pre-render one page per article
@@ -19,11 +22,11 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
-}) {
+}): Promise<Metadata> {
   const { slug } = await params;
   const article = getArticle(slug);
-  if (!article) return { title: "NEWS | Fixlinx Industrial" };
-  return { title: `${article.title} | Fixlinx Industrial` };
+  if (!article) return seoMeta(newsMeta({ slug, title: "News Article" }));
+  return seoMeta(newsMeta(article), "article");
 }
 
 export default async function NewsDetailPage({
@@ -35,8 +38,14 @@ export default async function NewsDetailPage({
   const article = getArticle(slug);
   if (!article) notFound();
 
+  const articleLd = articleJsonLd(article);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: articleLd }}
+      />
       <Header />
       <main>
         <HeroStrip

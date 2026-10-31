@@ -436,8 +436,8 @@ export function ManageClient() {
           <h2 className="mg-h2">DIY PACK PAGES</h2>
           <p className="mg-hint">
             Each DIY PACK sub-page reads <code>data/diy/&lt;slug&gt;.json</code>{" "}
-            at request time. The unrelated legacy Wix product cards have been
-            cleared — pages now show only the managed cards below. Pick a page,
+            at request time. Legacy product cards have been cleared —
+            pages now show only the managed cards below. Pick a page,
             edit its cards, and save.
           </p>
 

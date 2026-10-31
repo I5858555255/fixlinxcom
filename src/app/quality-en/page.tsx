@@ -4,11 +4,14 @@ import { Footer } from "@/components/sites/fixlinx/Footer";
 import { PageCard } from "@/components/sites/fixlinx/HomeCards";
 import { HeroStrip } from "@/components/sites/fixlinx/PageHero";
 import { assetPath } from "@/lib/assetPath";
+import { PAGE_META } from "@/lib/seo";
+import { seoMeta } from "@/lib/seoMeta";
+import { breadcrumbJsonLd } from "@/lib/seoJsonLd";
 import "./quality.css";
 
-export const metadata: Metadata = {
-  title: "QUALITY | Fixlinx Industrial",
-};
+export const metadata: Metadata = seoMeta(PAGE_META.quality);
+
+const quality_breadcrumbLd = breadcrumbJsonLd("quality");
 
 // Two modules: (1) production process, (2) certification & inspection
 const PROCESS = [
@@ -27,6 +30,7 @@ const CERTS = [
 export default function QualityPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: quality_breadcrumbLd }} />
       <Header />
       <main>
         <HeroStrip

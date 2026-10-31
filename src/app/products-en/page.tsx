@@ -5,11 +5,14 @@ import { Footer } from "@/components/sites/fixlinx/Footer";
 import { PageCard } from "@/components/sites/fixlinx/HomeCards";
 import { HeroStrip } from "@/components/sites/fixlinx/PageHero";
 import { assetPath } from "@/lib/assetPath";
+import { PAGE_META } from "@/lib/seo";
+import { seoMeta } from "@/lib/seoMeta";
+import { breadcrumbJsonLd } from "@/lib/seoJsonLd";
 import "./products.css";
 
-export const metadata: Metadata = {
-  title: "PRODUCTS | Fixlinx Industrial",
-};
+export const metadata: Metadata = seoMeta(PAGE_META.products);
+
+const products_breadcrumbLd = breadcrumbJsonLd("products");
 
 const FASTENERS_LIST = [
   "Wood Screws",
@@ -38,6 +41,7 @@ const BOXES = [
 export default function ProductsPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: products_breadcrumbLd }} />
       <Header />
       <main>
         <HeroStrip

@@ -4,10 +4,32 @@ import { Footer } from "@/components/sites/fixlinx/Footer";
 import { PageCard } from "@/components/sites/fixlinx/HomeCards";
 import { getDiyPage, type DiyPage } from "@/components/sites/fixlinx/DiyLib";
 import { assetPath } from "@/lib/assetPath";
+import { PAGE_META, absoluteUrl, ogImageUrl } from "@/lib/seo";
 import "./diy-sub.css";
 
 export const metadata: Metadata = {
-  title: "DIY PACK - 02 Buckets (Round) | Fixlinx Industrial",
+  title: "DIY PACK - Buckets (Round) | Fixlinx Industrial",
+  description:
+    "View the buckets (round) fastener packaging page from Fixlinx Industrial. Product cards, specifications and format details.",
+  alternates: {
+    canonical: absoluteUrl("/02-buckets-round-en/"),
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: absoluteUrl("/02-buckets-round-en/"),
+    siteName: "Fixlinx",
+    title: "DIY PACK - Buckets (Round) | Fixlinx Industrial",
+    description:
+      "View the buckets (round) fastener packaging page from Fixlinx Industrial.",
+    images: [{ url: ogImageUrl() }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DIY PACK - Buckets (Round) | Fixlinx Industrial",
+    description: "View the buckets (round) fastener packaging page from Fixlinx Industrial.",
+    images: [ogImageUrl()],
+  },
 };
 
 export const dynamic = "force-dynamic";
