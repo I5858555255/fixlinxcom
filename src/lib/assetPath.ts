@@ -39,28 +39,27 @@
 
 /**
  * Build-time injected: the Pages base path.
- *   - unset / ""      → "/fixlinxcom" (GitHub Pages sub-path, default)
- *   - "root"          → ""            (custom-domain root deployment)
+ *   - unset / ""      → "" (root deployment, default since www cutover)
+ *   - "root"          → "" (explicit sentinel, same as default)
+ *   - "/fixlinxcom"   → legacy sub-path build
  * NEXT_PUBLIC_PAGES_BASE is read by next.config.ts (build-time basePath)
  * and here (runtime assetPath detection).
  */
 const RAW_BASE: string =
   process.env.NEXT_PUBLIC_PAGES_BASE?.trim() ?? "";
 const BUILD_BASE: string =
-  RAW_BASE === "root" ? "" : RAW_BASE || "/fixlinxcom";
+  RAW_BASE === "root" ? "" : RAW_BASE;
 
 let cached: string | null = null;
 
 function detectPrefix(): string {
   if (typeof window === "undefined") return ""; // SSR / build-time
   if (cached !== null) return cached;
+  // Root deployment (BUILD_BASE = "") → no prefix needed; assets served at /.
+  if (BUILD_BASE === "") { cached = ""; return ""; }
   const seg = window.location.pathname.split("/").filter(Boolean)[0] ?? "";
   const baseSeg = BUILD_BASE.replace(/^\//, "");
-  // For a root deployment (BUILD_BASE = "/fixlinxcom" but host is a custom
-  // domain served at /), the first path segment will be e.g. "products-en",
-  // which will never equal "fixlinxcom" — so no prefix is applied, which
-  // is correct (assets are at root).
-  cached = seg === baseSeg && baseSeg !== "" ? BUILD_BASE : "";
+  cached = seg === baseSeg ? BUILD_BASE : "";
   return cached;
 }
 

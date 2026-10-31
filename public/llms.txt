@@ -1,6 +1,6 @@
 # FixLinx Industrial — llms.txt
 # AI/LLM-readable summary of this site for GEO (Generative Engine Optimization).
-# Crawl https://i5858555255.github.io/fixlinxcom/ for full detail.
+# Crawl https://www.fixlinx.com/ for full detail.
 
 ## Company
 
@@ -42,10 +42,11 @@
 - Quality: AQL sampling, torque testing, salt-spray testing, dedicated inspection lab
 - Product focus: industrial fasteners and hardware retail packaging
 - Markets: global (B2B export)
-- Domain: https://www.fixlinx.com (in transition from GitHub Pages)
+- Domain: https://www.fixlinx.com (formal production domain, live since 2026-10-31)
+- Legacy URL (also valid, sub-path build): https://i5858555255.github.io/fixlinxcom/
 
 ## Structured data
 
 JSON-LD (Organization, WebSite) is embedded in every page <head>.
-Canonical URLs use https://i5858555255.github.io/fixlinxcom/ until
-www.fixlinx.com DNS is configured.
+Canonical URLs use https://www.fixlinx.com/ (formal production domain).
+Legacy sub-path build at https://i5858555255.github.io/fixlinxcom/ remains valid.

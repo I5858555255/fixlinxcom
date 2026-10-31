@@ -1,31 +1,31 @@
 /**
  * Centralised SEO configuration for the Fixlinx site.
  *
- * Three GitHub Actions repository variables control the full cutover:
+ * Since the www.fixlinx.com cutover (2026-10-31):
+ *   - default SITE_ORIGIN = https://www.fixlinx.com (formal domain)
+ *   - default PAGES_BASE  = "" (root deployment, no sub-path)
  *
- *   PAGES_BASE          — "" (default, sub-path) or "root" (custom domain)
- *   SITE_ORIGIN         — default https://i5858555255.github.io,
- *                          set to https://www.fixlinx.com after binding
- *   SITEMAP_BASE_URL    — default = SITE_ORIGIN + PAGES_BASE,
- *                          set to https://www.fixlinx.com after binding
+ * Legacy sub-path rebuild (for i5858555255.github.io/fixlinxcom):
+ *   set NEXT_PUBLIC_PAGES_BASE="/fixlinxcom" and
+ *   NEXT_PUBLIC_SITE_ORIGIN="https://i5858555255.github.io" at build time.
  *
- * No source code changes are required to switch — only the repo
- * variables in GitHub → Settings → Secrets and variables → Variables.
+ * All values remain env-overridable via NEXT_PUBLIC_* variables.
  */
 
 // ── Origin & base path (env-overridable) ──────────────────────────────────
 
 export const SITE_ORIGIN: string =
-  process.env.NEXT_PUBLIC_SITE_ORIGIN?.trim() || "https://i5858555255.github.io";
+  process.env.NEXT_PUBLIC_SITE_ORIGIN?.trim() || "https://www.fixlinx.com";
 
 /**
  * NEXT_PUBLIC_PAGES_BASE:
- *   unset / ""  → "/fixlinxcom" (current GitHub Pages sub-path)
- *   "root"      → ""            (custom-domain root deployment)
+ *   unset / ""  → "" (root deployment, default since www cutover)
+ *   "root"      → "" (explicit sentinel, same as default)
+ *   "/fixlinxcom" → legacy sub-path build
  */
 const RAW_PAGES_BASE = process.env.NEXT_PUBLIC_PAGES_BASE?.trim() ?? "";
 export const PAGES_BASE: string =
-  RAW_PAGES_BASE === "root" ? "" : RAW_PAGES_BASE || "/fixlinxcom";
+  RAW_PAGES_BASE === "root" ? "" : RAW_PAGES_BASE;
 
 /** Full production base URL (e.g. https://i5858555255.github.io/fixlinxcom) */
 export const SITE_BASE: string =

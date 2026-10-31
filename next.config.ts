@@ -7,14 +7,14 @@ import path from "node:path";
  *
  * The GitHub Actions workflow sets NEXT_OUTPUT=static which:
  *   - enables `output: "export"` so `next build` emits a plain `out/` dir
- *   - sets `basePath: "/fixlinxcom"` because GitHub Pages project sites
- *     live under `/<user>/<repo>/` — Next prefixes every framework URL
- *     (chunk/css references, next/link hrefs, router push paths) with it
+ *   - basePath: controlled by NEXT_PUBLIC_PAGES_BASE (default "" = root,
+ *     i.e. www.fixlinx.com custom-domain build; set to "/fixlinxcom" for
+ *     the legacy GitHub Pages project site sub-path)
  *   - switches `trailingSlash` to true (GitHub Pages URL convention)
  *
  * Public assets that bypass the framework are covered by:
  *   - src/lib/assetPath.ts  — runtime helper for JSX <img>/<a>/<iframe> src
- *   - postcss-basepath.js   — build-time CSS url() rewrite (see postcss.config.js)
+ *   - CSS url() source patch in this file (sub-path builds only)
  *
  * API routes can't exist in a static export, so in this mode they are
  * replaced with no-op stubs on disk during the build and restored to the
@@ -23,23 +23,16 @@ import path from "node:path";
  * basePath — local dev on localhost:3000 keeps working as-is.
  */
 const isPages = process.env.NEXT_OUTPUT === "static";
-// GitHub Actions sets NEXT_PUBLIC_PAGES_BASE from a repo variable.
-// When the variable is UNSET or EMPTY, default to the sub-path form.
-// To switch to a custom-domain root build, set the variable to "fixlinxcom"
-// (any non-empty value that is NOT the base path prefix — see docs).
+// Build base path (env-overridable).
 //
-// Logic:
-//   NEXT_PUBLIC_PAGES_BASE unset/empty  → basePath = "/fixlinxcom" (current)
-//   NEXT_PUBLIC_PAGES_BASE = "root"      → basePath omitted        (custom domain)
-//   NEXT_PUBLIC_PAGES_BASE = "/fixlinxcom" → basePath = "/fixlinxcom" (explicit)
+//   NEXT_PUBLIC_PAGES_BASE unset/empty  → "" (root; www.fixlinx.com cutover)
+//   NEXT_PUBLIC_PAGES_BASE = "/fixlinxcom" → sub-path build (legacy Pages)
+//   NEXT_PUBLIC_PAGES_BASE = "root"    → "" (sentinel, same as unset)
 const RAW_BASE = process.env.NEXT_PUBLIC_PAGES_BASE ?? "";
 const PAGES_BASE: string =
-  RAW_BASE === "" || RAW_BASE === undefined
-    ? "/fixlinxcom"          // default: GitHub Pages sub-path
-    : RAW_BASE;             // explicit value (use "root" sentinel for root build)
-// Use a sentinel value to mean "no basePath" (custom domain root build)
-const HAS_BASE = PAGES_BASE !== "root" && PAGES_BASE !== "";
-const EFFECTIVE_BASE = HAS_BASE ? PAGES_BASE : "";
+  RAW_BASE === "root" ? "" : RAW_BASE;
+const HAS_BASE = PAGES_BASE !== "";
+const EFFECTIVE_BASE = PAGES_BASE;
 
 const API_STUB = `/* AUTO-STUB: API routes are unavailable in the GitHub Pages static export. */
 import { NextResponse } from "next/server";

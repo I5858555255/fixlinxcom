@@ -86,10 +86,13 @@ def main():
     args = ap.parse_args()
 
     out_dir = Path(args.output_dir).resolve()
+    # Default = formal domain (www.fixlinx.com root cutover, 2026-10-31).
+    # Legacy sub-path: set FIXLINX_SITEMAP_BASE_URL=
+    #   https://i5858555255.github.io/fixlinxcom
     base_url = (
         args.base_url
         or os.environ.get("FIXLINX_SITEMAP_BASE_URL", "").strip()
-        or "https://i5858555255.github.io/fixlinxcom"
+        or "https://www.fixlinx.com"
     )
     # Read disallow list from env or default
     default_disallow = ["/manage/", "/assets-en/", "/api/"]
