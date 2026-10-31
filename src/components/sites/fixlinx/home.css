@@ -100,11 +100,13 @@
 }
 
 .dy-card__media {
+  position: relative;
   overflow: hidden;
-  display: flex;
 }
 
 .dy-card__media img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -115,7 +117,12 @@
 }
 
 .dy-card--alt .dy-card__media {
-  background: var(--fx-graphite);
+  /* neutral white background — the product photo has a white/very light
+     backdrop; on ultra-wide viewports the flex container previously left
+     the dark --fx-graphite panel visible around the image (the "black
+     rectangle" the user saw on full screen). White blends with the
+     content column. */
+  background: #fff;
 }
 
 /* ---------- page chrome ---------- */
